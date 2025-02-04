@@ -15,7 +15,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-  create: (context) => HomeCubit()..getEmployee()..getExpenses(),
+  create: (context) => HomeCubit()..getExpenses(),
   child: Scaffold(
       appBar: AppBar(
         title: Text("Expenses", style: TextStyle(color: Colors.white)),

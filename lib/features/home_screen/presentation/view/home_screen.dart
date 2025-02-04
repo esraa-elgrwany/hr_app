@@ -20,8 +20,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return
+    MultiBlocProvider(
+  providers: [
     BlocProvider(
         create: (_) => AttendanceCubit(),
+),
+    BlocProvider(
+      create: (context) => HomeCubit()..getEmployee(),
+    ),
+  ],
   child: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
