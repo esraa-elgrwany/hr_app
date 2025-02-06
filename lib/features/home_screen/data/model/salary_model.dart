@@ -1,10 +1,11 @@
-class GetTimeOff {
-  GetTimeOff({
-      this.jsonrpc, 
-      this.id, 
-      this.result,});
+class SalaryModel {
+  SalaryModel({
+    this.jsonrpc,
+    this.id,
+    this.result,
+  });
 
-  GetTimeOff.fromJson(dynamic json) {
+  SalaryModel.fromJson(dynamic json) {
     jsonrpc = json['jsonrpc'];
     id = json['id'];
     if (json['result'] != null) {
@@ -14,6 +15,7 @@ class GetTimeOff {
       });
     }
   }
+
   String? jsonrpc;
   int? id;
   List<Result>? result;
@@ -27,41 +29,47 @@ class GetTimeOff {
     }
     return map;
   }
-
 }
 
 class Result {
   Result({
-      this.id, 
-      this.name, 
-      this.holidayStatusId, 
-      this.requestDateFrom, 
-      this.requestDateTo, 
-      this.state,});
+    this.id,
+    this.name,
+    this.dateFrom,
+    this.dateTo,
+    this.state,
+    this.employeeId,
+    this.lineIds,
+  });
 
   Result.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
-    holidayStatusId= json['holiday_status_id'] != null ? json['holiday_status_id'].cast<dynamic>() : [];
-    requestDateFrom = json['request_date_from'];
-    requestDateTo = json['request_date_to'];
+    dateFrom = json['date_from'];
+    dateTo = json['date_to'];
     state = json['state'];
+    employeeId =
+        json['employee_id'] != null ? json['employee_id'].cast<dynamic>() : [];
+    lineIds = json['line_ids'] != null ? json['line_ids'].cast<int>() : [];
   }
+
   int? id;
   String? name;
-  List<dynamic>? holidayStatusId;
-  String? requestDateFrom;
-  String? requestDateTo;
+  String? dateFrom;
+  String? dateTo;
   String? state;
+  List<dynamic>? employeeId;
+  List<int>? lineIds;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['holiday_status_id'] = holidayStatusId;
-    map['request_date_from'] = requestDateFrom;
-    map['request_date_to'] = requestDateTo;
+    map['date_from'] = dateFrom;
+    map['date_to'] = dateTo;
     map['state'] = state;
+    map['employee_id'] = employeeId;
+    map['line_ids'] = lineIds;
     return map;
   }
 }

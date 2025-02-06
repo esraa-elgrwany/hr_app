@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_app/features/home_screen/presentation/view/widgets/expenses_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/floating_button.dart';
-import '../view_model/home_cubit.dart';
+import 'package:hr_app/features/home_screen/presentation/view/widgets/holiday_card.dart';
+import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
 
-class ExpensesTab extends StatefulWidget {
-  static const String routeName = "expensesTab";
+class HolidayTab extends StatelessWidget {
+  static const String routeName = "holidayTab";
 
-  const ExpensesTab({super.key});
-
-  @override
-  State<ExpensesTab> createState() => _ExpensesTabState();
-}
-
-class _ExpensesTabState extends State<ExpensesTab> {
-  List<String> state = ["draft", "submitted", "approved"];
+  const HolidayTab({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getExpenses(),
+      create: (context) => HomeCubit()..getHolidays(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Expenses", style: TextStyle(color: Colors.white)),
+          title: Text("Holidays", style: TextStyle(color: Colors.white)),
           backgroundColor: Color(0xFF121645),
           elevation: 0,
           surfaceTintColor: Colors.transparent,
@@ -52,7 +45,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
-                if (state is GetExpensesLoading) {
+                if (state is GetHolidaysLoading) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +57,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                       ],
                     ),
                   );
-                } else if (state is GetExpensesError) {
+                } else if (state is GetHolidaysError) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                       context: context,
@@ -85,9 +78,9 @@ class _ExpensesTabState extends State<ExpensesTab> {
                     child: ListView.builder(
                       padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      itemCount: HomeCubit.get(context).expenses.length,
+                      itemCount: HomeCubit.get(context).holidays.length,
                       itemBuilder: (context, index) {
-                        return ExpensesCard(
+                        return HolidayCard(
                           index: index,
                         );
                       },

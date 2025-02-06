@@ -1,8 +1,9 @@
 class ExpensesModel {
   ExpensesModel({
-      this.jsonrpc, 
-      this.id, 
-      this.result,});
+    this.jsonrpc,
+    this.id,
+    this.result,
+  });
 
   ExpensesModel.fromJson(dynamic json) {
     jsonrpc = json['jsonrpc'];
@@ -10,13 +11,14 @@ class ExpensesModel {
     if (json['result'] != null) {
       result = [];
       json['result'].forEach((v) {
-        result?.add(Result.fromJson(v));
+        result?.add(ExpensesResult.fromJson(v));
       });
     }
   }
+
   String? jsonrpc;
   int? id;
-  List<Result>? result;
+  List<ExpensesResult>? result;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -27,31 +29,31 @@ class ExpensesModel {
     }
     return map;
   }
-
 }
 
-class Result {
-  Result({
-      this.id, 
-      this.name, 
-      this.productId, 
-      this.totalAmountCurrency, 
-      this.employeeId, 
-      this.date,});
+class ExpensesResult {
+  ExpensesResult({
+    this.id,
+    this.name,
+    this.productId,
+    this.totalAmountCurrency,
+    this.date,
+  });
 
-  Result.fromJson(dynamic json) {
+  ExpensesResult.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
-    productId = json['product_id'];
+    productId = (json['product_id'] is List && json['product_id'].length == 2)
+        ? json['product_id']
+        : (json['product_id'] == false ? false : null);
     totalAmountCurrency = json['total_amount_currency'];
-    employeeId = json['employee_id'] != null ? json['employee_id'].cast<int>() : [];
     date = json['date'];
   }
+
   int? id;
   String? name;
-  bool? productId;
+  dynamic productId;
   double? totalAmountCurrency;
-  List<int>? employeeId;
   String? date;
 
   Map<String, dynamic> toJson() {
@@ -60,9 +62,7 @@ class Result {
     map['name'] = name;
     map['product_id'] = productId;
     map['total_amount_currency'] = totalAmountCurrency;
-    map['employee_id'] = employeeId;
     map['date'] = date;
     return map;
   }
-
 }
