@@ -75,7 +75,7 @@ class ExpensesCard extends StatelessWidget {
         Positioned(
           top: 16,
           right: 0,
-          child: Align(alignment: Alignment.centerRight, child: IconBadge()),
+          child: Align(alignment: Alignment.centerRight, child: IconBadge(img: "assets/images/budget_5545348.png",)),
         ),
       ],
     );

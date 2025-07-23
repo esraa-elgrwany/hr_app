@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_app/core/utils/styles/colors.dart';
 import 'package:hr_app/features/auth/presentation/view/login_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/home_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/news_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/notification_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/features/setting/view/setting_screen.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/cache/shared_preferences.dart';
 import '../view_model/attendence_cubit.dart';
@@ -23,70 +26,69 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
-  List<Widget> tabs = [HomeTab(), NotificationTab(), NewsTab()];
+  List<Widget> tabs = [HomeTab(), NotificationTab(), NewsTab(),SettingScreen()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           toolbarHeight: 80,
-          title: Text("HR App", style: TextStyle(color: Colors.white)),
-          backgroundColor: Color(0xFF121645),
+          title: Text("HR App", style: TextStyle(fontSize: 22.sp,fontWeight: FontWeight.bold)),
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-                onTap: () {
-                  CacheData.removeData("userId");
-                  Navigator.pushReplacementNamed(
-                      context, LoginScreen.routeName);
-                },
-                child: Icon(
-                  Icons.logout_outlined,
-                  color: Colors.white,
-                )),
-          ),
         ),
         bottomNavigationBar: Container(
-            padding: EdgeInsets.all(2),
-            margin: EdgeInsets.all(8),
+            margin: EdgeInsets.only(
+              left: 8,right: 8,bottom: 8
+            ),
             decoration: BoxDecoration(
-              color: Color(0XFFebf6fc),
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius:  BorderRadius.all(Radius.circular(36.r)),
             ),
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                borderRadius: BorderRadius.all(Radius.circular(36.r)),
                 child: BottomNavigationBar(
-                  backgroundColor: Color(0XFFebf6fc),
+                  type: BottomNavigationBarType.shifting,
                   iconSize: 20,
                   elevation: 2,
                   onTap: (value) {
                     index = value;
                     setState(() {});
                   },
-                  selectedItemColor: Color(0xFF121645),
-                  unselectedItemColor: Color(0xFF121645),
+                  selectedItemColor:Theme.of(context).colorScheme.primary,
+                  unselectedItemColor:Theme.of(context).colorScheme.primary,
                   currentIndex: index,
+                  selectedLabelStyle: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500),
+                  unselectedLabelStyle:TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500),
                   items: [
                     BottomNavigationBarItem(
+                      backgroundColor:Theme.of(context).colorScheme.secondary,
                       icon: Icon(
                         Icons.home,
                       ),
                       label: "Home",
                     ),
                     BottomNavigationBarItem(
+                        backgroundColor:Theme.of(context).colorScheme.secondary,
                         icon: Icon(
                           Icons.notifications_on_rounded,
                         ),
                         label: "Notification"),
                     BottomNavigationBarItem(
+                        backgroundColor:Theme.of(context).colorScheme.secondary,
                         icon: Icon(
                           Icons.newspaper,
                         ),
                         label: "News"),
+                    BottomNavigationBarItem(
+                      backgroundColor:Theme.of(context).colorScheme.secondary,
+                      icon: Icon(
+                        Icons.settings,
+                      ),
+                      label: "settings",
+                    ),
                   ],
                 ))),
         body: tabs[index]);

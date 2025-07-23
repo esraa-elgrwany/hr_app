@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_app/core/utils/styles/colors.dart';
+import 'package:hr_app/features/home_screen/presentation/view/screens/holiday_request_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/floating_button.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/holiday_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class HolidayTab extends StatelessWidget {
   static const String routeName = "holidayTab";
@@ -16,7 +20,7 @@ class HolidayTab extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Holidays", style: TextStyle(color: Colors.white)),
-          backgroundColor: Color(0xFF121645),
+          backgroundColor: primaryColor,
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
@@ -35,12 +39,12 @@ class HolidayTab extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              height: 40,
+              height: 24.h,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color(0xFF121645),
+                color: primaryColor,
                 borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30)),
+                    BorderRadius.vertical(bottom: Radius.circular(32)),
               ),
             ),
             BlocBuilder<HomeCubit, HomeState>(
@@ -48,37 +52,53 @@ class HolidayTab extends StatelessWidget {
                 if (state is GetHolidaysLoading) {
                   return Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 240.h,),
                         CircularProgressIndicator(color: Colors.green),
                       ],
                     ),
                   );
-                } else if (state is GetHolidaysError) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text("Error"),
-                        content: Text(state.failures.errormsg),
-                      ),
-                    );
-                  });
+                }
+                else if (state is GetHolidaysError) {
                   return Center(
-                    child: Text(
-                      "An error occurred.",
-                      style: TextStyle(color: Colors.red),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 240.h),
+                        Icon(Icons.warning_amber_rounded,
+                            color: Colors.red, size: 50),
+                        SizedBox(height: 16.h),
+                        Text(
+                          "An error occurred.",
+                          style: TextStyle(color: Colors.red, fontSize: 18),
+                        ),
+                      ],
                     ),
                   );
-                } else {
-                  return Expanded(
+                } else if (state is GetHolidaysSuccess) {
+                  final holidays = context.read<HomeCubit>().holidays;
+                  if (holidays.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:[
+                          SizedBox(height: 240.h,),
+                          Icon(LucideIcons.calendar,
+                              color: Colors.grey, size: 50),
+                          SizedBox(height: 12),
+                          Text(
+                            "No Holidays Found",
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return  Expanded(
                     child: ListView.builder(
                       padding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      itemCount: HomeCubit.get(context).holidays.length,
+                      itemCount: holidays.length,
                       itemBuilder: (context, index) {
                         return HolidayCard(
                           index: index,
@@ -87,11 +107,10 @@ class HolidayTab extends StatelessWidget {
                     ),
                   );
                 }
-              },
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingButton(),
+                return SizedBox();
+              }),
+          ]),
+        floatingActionButton: FloatingButton(HolidayRequestScreen.routeName),
       ),
     );
   }

@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_app/core/cache/shared_preferences.dart';
 
 import '../../../../core/Api_Services/Api-Manager.dart';
 import '../../../../core/Failures/Failures.dart';
-import '../Model/AttendModel.dart';
-import 'attendRepo.dart';
+import '../Model/attend_model.dart';
+import 'attend_repo.dart';
 
 class AttendRepoImpl implements AttendRepo{
   ApiManager apiManager;
@@ -18,7 +19,7 @@ class AttendRepoImpl implements AttendRepo{
         "params": {
           "service": "object",
           "method": "execute_kw",
-          "args": ["odoo", 2, "admin", "hr.attendance", "create", [params]]
+          "args": ["dhr-new-main-21965090", 2, CacheData.getData(key: "password"), "hr.attendance", "create", [params]]
         },
         "id": 1
       };
@@ -46,9 +47,9 @@ class AttendRepoImpl implements AttendRepo{
           "service": "object",
           "method": "execute_kw",
           "args": [
-            "odoo",
+            "dhr-new-main-21965090",
             2,
-            "admin",
+      CacheData.getData(key: "password"),
             "hr.attendance",
             "write",
             [

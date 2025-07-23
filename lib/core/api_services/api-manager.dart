@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-
-import 'Constants.dart';
+import 'constants.dart';
 
 class ApiManager {
   Dio dio = Dio();

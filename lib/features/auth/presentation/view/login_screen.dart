@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LoginSuccess) {
             context.read<HomeCubit>().getEmployee(id: state.loginModel.result!);
+            CacheData.saveId(data: state.loginModel.result, key: "userId");
             Navigator.push(
                 context,
                 MaterialPageRoute(

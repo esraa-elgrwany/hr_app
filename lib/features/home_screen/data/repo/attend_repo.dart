@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/Failures/Failures.dart';
-import '../Model/AttendModel.dart';
+import '../Model/attend_model.dart';
 
 
 abstract class AttendRepo{

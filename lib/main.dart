@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
+import 'package:hr_app/features/home_screen/presentation/view/screens/holiday_request_screen.dart';
 import 'core/cache/shared_preferences.dart';
 import 'core/utils/observer.dart';
+import 'core/utils/styles/my_theme.dart';
 import 'features/auth/presentation/view/login_screen.dart';
 import 'features/home_screen/presentation/view/Expenses_tab.dart';
 import 'features/home_screen/presentation/view/home_screen.dart';
+import 'features/setting/model_view/setting_cubit.dart';
+import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +23,10 @@ void main() async {
   } else {
     start = HomeScreen.routeName;
   }
-  runApp(MyApp(start));
+  runApp(BlocProvider(
+  create: (context) => SettingCubit(),
+  child: MyApp(start),
+));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,18 +36,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SettingCubit, SettingState>(
+    builder: (context, state) {
     return ScreenUtilInit(
         designSize: const Size(412, 870),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
+          localizationsDelegates:
+          AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale(SettingCubit.get(context).languageCode),
                 debugShowCheckedModeBanner: false,
-                initialRoute: start,
+                initialRoute: HomeScreen.routeName,
                 routes: {
                   HomeScreen.routeName: (context) => HomeScreen(),
                   LoginScreen.routeName: (context) => LoginScreen(),
                   ExpensesTab.routeName: (context) => ExpensesTab(),
                   HolidayTab.routeName: (context) => HolidayTab(),
-                }));
+                  HolidayRequestScreen.routeName: (context) => HolidayRequestScreen(),
+                },
+          themeMode: SettingCubit.get(context).modeApp,
+          theme: MyThemeData.lightTheme,
+          darkTheme: MyThemeData.darkTheme,
+                ));
+  },
+);
   }
 }

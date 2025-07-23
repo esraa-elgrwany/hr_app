@@ -1,9 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
-import 'package:hr_app/features/auth/data/models/employee_model.dart';
-import '../../../../core/Api_Services/Api-Manager.dart';
-import '../../../../core/Failures/Failures.dart';
+import '../../../../core/api_services/api-manager.dart';
 import '../../../../core/cache/shared_preferences.dart';
+import '../../../../core/failures/failures.dart';
 import '../models/login_model.dart';
 import 'auth_repo.dart';
 
@@ -22,7 +20,7 @@ class AuthRepoImpl implements AuthRepo {
       "params": {
         "service": "common",
         "method": "login",
-        "args": ["odoo", user, password],
+        "args": ["dhr-new-main-21965090", user, password],
       },
       "id": 1,
     };
@@ -32,7 +30,7 @@ class AuthRepoImpl implements AuthRepo {
         body:body,
       );
       LoginModel user=LoginModel.fromJson(response.data);
-      CacheData.saveId(data: user.result, key:"userId");
+      print("Login data result$user");
       if (response.statusCode == 200) {
         return Right(user);
       } else {
@@ -43,8 +41,4 @@ class AuthRepoImpl implements AuthRepo {
       return Left(ServerFailure("Network Error: $e"));
     }
   }
-
-
-
-
 }

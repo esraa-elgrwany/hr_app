@@ -2,12 +2,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_app/core/cache/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/Api_Services/Api-Manager.dart';
 import '../../../../core/Failures/Failures.dart';
-import '../../Data/Model/AttendModel.dart';
-import '../../Data/Repo/AttendRepoImpl.dart';
-import '../../Data/Repo/attendRepo.dart';
+import '../../Data/Model/attend_model.dart';
+import '../../Data/Repo/attend_repo_impl.dart';
+import '../../Data/Repo/attend_repo.dart';
 import 'attendence_state.dart';
 
 class AttendanceCubit extends Cubit<AttendanceState> {
@@ -68,7 +69,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     String currentTime = DateTime.now().toIso8601String();
     elapsedTime = 0;
     Map<String, dynamic> params = {
-      "employee_id": 1,
+      "employee_id": CacheData.getEmployeeData(key: "employeeId") ?? 0,
       "check_in":currentTime,
       "in_mode": "systray",
       "in_country_name": "Egypt",
@@ -100,7 +101,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     emit(CheckOutLoading());
     String currentTime = DateTime.now().toIso8601String();
     Map<String, dynamic> params = {
-      "employee_id": 1,
+      "employee_id": CacheData.getEmployeeData(key: "employeeId") ?? 0,
       "check_in": DateTime.now().toIso8601String(),
       "in_mode": "systray",
       "in_browser": "mobile app",

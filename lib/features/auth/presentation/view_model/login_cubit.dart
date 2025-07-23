@@ -1,16 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_app/features/auth/data/models/employee_model.dart';
+import 'package:hr_app/features/auth/data/models/login_model.dart';
+import '../../../../core/api_services/api-manager.dart';
+import '../../../../core/failures/failures.dart';
+import '../../data/repo/auth_repo.dart';
+import '../../data/repo/auth_repo_impl.dart';
 import 'package:meta/meta.dart';
-
-import '../../../../core/Api_Services/Api-Manager.dart';
-import '../../../../core/Failures/Failures.dart';
-import '../../../../core/cache/shared_preferences.dart';
-import '../../data/Repo/auth_repo.dart';
-import '../../data/Repo/auth_repo_impl.dart';
-import '../../data/models/login_model.dart';
-
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -28,5 +24,4 @@ class LoginCubit extends Cubit<LoginState> {
               emit(LoginSuccess(loginModel)),
     );
   }
-
 }

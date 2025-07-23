@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_app/core/cache/shared_preferences.dart';
+import 'package:hr_app/features/auth/presentation/view/widgets/button.dart';
+import 'package:hr_app/features/auth/presentation/view/widgets/text_form_item.dart';
 import 'package:hr_app/features/auth/presentation/view_model/login_cubit.dart';
+
+import '../../../../../core/utils/styles/colors.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -29,101 +35,100 @@ class _LoginFormState extends State<LoginForm> {
                 bottomEnd: Radius.circular(100))),
         child: Container(
           padding: EdgeInsets.all(16),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Username",
+          child: Center(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Username",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 18.sp)),
+                  SizedBox(height: 8.h),
+                  TextFormItem(
+                      controller: userController,
+                      hint: "Username",
+                      icon: Icons.person,
+                      validateTxt: "please enter your username"),
+                  SizedBox(height: 20.h),
+                  Text("Password",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 18.sp)),
+                  SizedBox(height: 8.h),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: secure ? true : false,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Color(0XFF1d194a))),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: userController,
-                  decoration: InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(color: Color(0XFFa1aaba)),
-                    filled: true,
-                    fillColor: Color(0XFFebf6fc),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Color(0XFFebf6fc))),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Color(0XFFebf6fc))),
-                    prefixIcon: Icon(Icons.person, color: Color(0XFF56b5d2)),
-                  ),
-                ),
-                SizedBox(height: 20),
-                const Text("Password",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Color(0XFF1d194a))),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: secure ? true : false,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0XFFebf6fc),
-                    labelText: 'Password',
-                    labelStyle: TextStyle(color: Color(0XFFa1aaba)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Color(0XFFebf6fc))),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Color(0XFFebf6fc))),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        secure = !secure;
-                        setState(() {});
-                      },
-                      icon: secure
-                          ? Icon(Icons.visibility_off, color: Color(0XFF56b5d2))
-                          : Icon(
-                              Icons.visibility,
-                              color: Color(0XFF56b5d2),
-                            ),
-                    ),
-                    prefixIcon: Icon(Icons.lock, color: Color(0XFF56b5d2)),
-                  ),
-                ),
-                SizedBox(height: 40),
-                // Login Button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        LoginCubit.get(context).login(
-                            userController.text, passwordController.text);
-                      },
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.secondary,
+                      hintText: 'Password',
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.secondary)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.secondary)),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          secure = !secure;
+                          setState(() {});
+                        },
+                        icon: secure
+                            ? Icon(Icons.visibility_off, color: thirdPrimary,size: 24.sp)
+                            : Icon(
+                                Icons.visibility,
+                                color: thirdPrimary,
+                            size: 24.sp
+                              ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0XFF1d194a),
-                        padding: EdgeInsets.only(
-                            bottom: 8, top: 8, left: 32, right: 32),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.circular(12)),
-                        textStyle: TextStyle(fontSize: 22),
-                      ),
+                      prefixIcon: Icon(Icons.lock, color: thirdPrimary,size: 24.sp),
                     ),
-                  ],
-                ),
-                SizedBox(height: 20),
-
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: Color(0XFF1d194a)),
                   ),
-                ),
-              ],
+                  SizedBox(height: 40.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            if (formKey.currentState!.validate()) {
+                              CacheData.saveId(data: passwordController.text, key: "password");
+                              LoginCubit.get(context).login(
+                                  userController.text, passwordController.text);
+                            }
+                          },
+                          child: Button(
+                            txt: "Login",
+                          )),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                          color: Color(0XFF1d194a),
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

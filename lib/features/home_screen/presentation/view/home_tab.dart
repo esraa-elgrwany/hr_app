@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/Expenses_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_cubit.dart';
@@ -57,7 +58,9 @@ class HomeTab extends StatelessWidget {
                 children: [
                   _buildHeader(),
                   Card(
+                    color: Theme.of(context).colorScheme.onBackground,
                     margin: EdgeInsets.all(16),
+                    elevation: 4,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     child: Padding(
@@ -69,25 +72,25 @@ class HomeTab extends StatelessWidget {
                             AttendanceCubit.get(context).formatElapsedTime(
                                 AttendanceCubit.get(context).elapsedTime),
                             style: TextStyle(
-                                fontSize: 48, fontWeight: FontWeight.bold),
+                                fontSize: 48.sp, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 16.h),
                           // Display current date
                           Text(
                             AttendanceCubit.get(context).formatCurrentDate(),
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                                fontSize: 18.sp, fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(height: 20),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          SizedBox(height: 20.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Column(
                                 children: [
                                   Text(
                                     'Check In',
                                     style: TextStyle(
-                                        color: Colors.green, fontSize: 16),
+                                        color: Colors.green, fontSize: 18.sp),
                                   ),
                                   Text(
                                     AttendanceCubit.get(context).checkInTime ??
@@ -98,13 +101,12 @@ class HomeTab extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              SizedBox(width: 50),
                               Column(
                                 children: [
                                   Text(
                                     'Check Out',
                                     style: TextStyle(
-                                        color: Colors.red, fontSize: 16),
+                                        color: Colors.red, fontSize: 18.sp),
                                   ),
                                   Text(
                                     AttendanceCubit.get(context).checkOutTime ??
@@ -117,31 +119,124 @@ class HomeTab extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 40),
+                          SizedBox(height: 16.h),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  AttendanceCubit.get(context).handleCheckIn();
+                              BlocListener<AttendanceCubit, AttendanceState>(
+                                  listener: (context, state) {
+                                    if (state is CheckInFailure) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text("Error"),
+                                          content: Text(state.errorMessage),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("okay",
+                                                    style: TextStyle(
+                                                        color: Colors.green))),
+                                          ],
+                                        ),
+                                      );
+                                    } else if (state is CheckInSuccess) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Center(
+                                              child: Text(
+                                                "Check In Successfully",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16.sp),
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.green,
+                                            duration: Duration(seconds: 4),
+                                            behavior: SnackBarBehavior.floating,
+                                            margin: EdgeInsets.all(24),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 4)),
+                                      );
+                                    }
+                                  },
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      AttendanceCubit.get(context)
+                                          .handleCheckIn();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green),
+                                    child: Text(
+                                      'Check In',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )),
+                              BlocListener<AttendanceCubit, AttendanceState>(
+                                listener: (context, state) {
+                                  if (state is CheckOutFailure) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text("Error"),
+                                        content: Text(state.errorMessage),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("okay",
+                                                  style: TextStyle(
+                                                      color: Colors.green))),
+                                        ],
+                                      ),
+                                    );
+                                  } else if (state is CheckOutSuccess) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Center(
+                                            child: Text(
+                                              "Check out Successfully",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16.sp),
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.green,
+                                          duration: Duration(seconds: 4),
+                                          behavior: SnackBarBehavior.floating,
+                                          margin: EdgeInsets.all(24),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 4)),
+                                    );
+                                  }
                                 },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green),
-                                child: Text(
-                                  'Check In',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  AttendanceCubit.get(context).handleCheckOut();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red),
-                                child: Text(
-                                  'Check Out',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                               child:  ElevatedButton(
+                                    onPressed: () {
+                                      AttendanceCubit.get(context)
+                                          .handleCheckOut();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red),
+                                    child: Text(
+                                      'Check Out',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -165,19 +260,19 @@ class HomeTab extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircleAvatar(
-              backgroundColor: Colors.purple,
-              child: Icon(
-                Icons.person_rounded,
-                color: Colors.white,
-              )),
+          Image.asset(
+            "assets/images/people_8532963.png",
+            width: 44.w,
+            height: 44.h,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text('Welcome',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style:
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
               Text("Administrator",
-                  style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
             ],
           ),
         ],
@@ -185,58 +280,6 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAttendanceInfo() {
-    return Card(
-      margin: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text('متبقي لانتهاء الدوام',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8),
-            Text('00 : 00 : 00',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildTimeInfo(
-                    'وقت الحضور', '٣:٣٥ م', LucideIcons.logIn, Colors.blue),
-                _buildTimeInfo(
-                    'وقت الانصراف', '٩:٣٦ م', LucideIcons.logOut, Colors.red),
-              ],
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(LucideIcons.check),
-                  SizedBox(width: 8),
-                  Text('حضور'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimeInfo(String label, String time, IconData icon, Color color) {
-    return Column(
-      children: [
-        Icon(icon, color: color, size: 32),
-        SizedBox(height: 8),
-        Text(label,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        Text(time, style: TextStyle(fontSize: 16, color: Colors.grey)),
-      ],
-    );
-  }
 
   Widget _buildQuickAccess(BuildContext context) {
     return Padding(
@@ -254,7 +297,7 @@ class HomeTab extends StatelessWidget {
                           builder: (context) => HolidayTab(),
                         ));
                   },
-                  child: _buildQuickAccessCard('Holidays', LucideIcons.calendar,
+                  child: _buildQuickAccessCard('Holidays',"assets/images/time_14859310.png",
                       Color(0XFFf2fafd), Color(0XFF4ea1d2), Color(0XFFf66259))),
               InkWell(
                   onTap: () {
@@ -266,17 +309,18 @@ class HomeTab extends StatelessWidget {
                   },
                   child: _buildQuickAccessCard(
                       'Expenses',
-                      LucideIcons.calculator,
+                      "assets/images/budget_5381790.png",
                       Color(0XFFffeacf),
                       Color(0XFF1e115e),
                       Color(0XFF4d5da7))),
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 16.h,
           ),
           Card(
             color: Colors.white,
+            elevation: 4,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12),
@@ -286,21 +330,20 @@ class HomeTab extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(8),
               width: double.infinity,
-              height: 110,
               child: Row(
                 children: [
                   Expanded(
                     child: Center(
                       child: Text("Salary Slip",
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 22.sp,
                               fontWeight: FontWeight.bold,
                               color: Color(0XFF1e115e))),
                     ),
                   ),
                   Container(
-                    width: 120,
-                    height: 140,
+                    width: 130.w,
+                    height: 104.h,
                     decoration: BoxDecoration(
                         color: Color(0XFFeef2fb),
                         borderRadius: BorderRadiusDirectional.only(
@@ -309,11 +352,7 @@ class HomeTab extends StatelessWidget {
                             bottomEnd: Radius.circular(32),
                             bottomStart: Radius.circular(12))),
                     child: Center(
-                        child: Icon(
-                      LucideIcons.fileText,
-                      size: 40,
-                      color: Color(0XFF1e115e),
-                    )),
+                        child: Image.asset("assets/images/cost.png",width: 56.w,height: 56.h,)),
                   ),
                 ],
               ),
@@ -324,10 +363,11 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickAccessCard(String title, IconData icon, Color color,
+  Widget _buildQuickAccessCard(String title, String img, Color color,
       Color txtColor, Color iconColor) {
     return Card(
       color: color,
+      elevation: 4,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
@@ -335,23 +375,19 @@ class HomeTab extends StatelessWidget {
               bottomLeft: Radius.circular(12),
               bottomRight: Radius.circular(32))),
       child: Container(
-        width: 110,
-        height: 110,
+        width: 140.w,
+        height: 140.h,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                size: 34,
-                color: iconColor,
-              ),
-              SizedBox(height: 8),
+             Image.asset(img,width: 56.w,height: 56.h,),
+              SizedBox(height: 8.h),
               Text(title,
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: txtColor)),
             ],

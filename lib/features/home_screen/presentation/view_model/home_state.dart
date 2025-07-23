@@ -33,6 +33,20 @@ class GetHolidaysError extends HomeState {
   GetHolidaysError(this.failures);
 }
 
+class RequestHolidaysLoading extends HomeState {}
+
+class RequestHolidaysSuccess extends HomeState {
+  HolidayRequestModel data;
+
+  RequestHolidaysSuccess(this.data);
+}
+
+class RequestHolidaysError extends HomeState {
+  Failures failures;
+
+  RequestHolidaysError(this.failures);
+}
+
 class GetEmployeeLoading extends HomeState {}
 
 class GetEmployeeSuccess extends HomeState {
@@ -45,4 +59,18 @@ class GetEmployeeError extends HomeState {
   String failures;
 
   GetEmployeeError(this.failures);
+}
+
+class GetStatusLoading extends HomeState {}
+
+class GetStatusSuccess extends HomeState {
+  StatusModel data;
+
+  GetStatusSuccess(this.data);
+}
+
+class GetStatusError extends HomeState {
+  Failures failures;
+
+  GetStatusError(this.failures);
 }
