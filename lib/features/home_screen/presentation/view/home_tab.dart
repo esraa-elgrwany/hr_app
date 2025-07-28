@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/Expenses_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
+import 'package:hr_app/features/home_screen/presentation/view/salary_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_cubit.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_state.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -318,43 +319,52 @@ class HomeTab extends StatelessWidget {
           SizedBox(
             height: 16.h,
           ),
-          Card(
-            color: Colors.white,
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(32),
-                    bottomRight: Radius.circular(32))),
-            child: Container(
-              padding: EdgeInsets.all(8),
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text("Salary Slip",
-                          style: TextStyle(
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0XFF1e115e))),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SalaryScreen(),
+                  ));
+            },
+            child: Card(
+              color: Colors.white,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32))),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text("Salary Slip",
+                            style: TextStyle(
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0XFF1e115e))),
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 130.w,
-                    height: 104.h,
-                    decoration: BoxDecoration(
-                        color: Color(0XFFeef2fb),
-                        borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(12),
-                            topStart: Radius.circular(12),
-                            bottomEnd: Radius.circular(32),
-                            bottomStart: Radius.circular(12))),
-                    child: Center(
-                        child: Image.asset("assets/images/cost.png",width: 56.w,height: 56.h,)),
-                  ),
-                ],
+                    Container(
+                      width: 130.w,
+                      height: 104.h,
+                      decoration: BoxDecoration(
+                          color: Color(0XFFeef2fb),
+                          borderRadius: BorderRadiusDirectional.only(
+                              topEnd: Radius.circular(12),
+                              topStart: Radius.circular(12),
+                              bottomEnd: Radius.circular(32),
+                              bottomStart: Radius.circular(12))),
+                      child: Center(
+                          child: Image.asset("assets/images/cost.png",width: 56.w,height: 56.h,)),
+                    ),
+                  ],
+                ),
               ),
             ),
           )

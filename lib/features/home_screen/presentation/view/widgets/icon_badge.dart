@@ -10,7 +10,7 @@ class IconBadge extends StatelessWidget {
     return CircleAvatar(
       radius: 20,
       backgroundColor: Colors.yellow,
-      child: Image.asset(img,width:48.w ,height: 48.h,)
+      child: Image.asset(img,width:52.w ,height: 52.h,)
     );
   }
 }

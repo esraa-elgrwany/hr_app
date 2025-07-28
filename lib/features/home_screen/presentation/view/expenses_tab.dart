@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/core/utils/styles/colors.dart';
+import 'package:hr_app/features/home_screen/presentation/view/screens/expenses_request_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/expenses_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/floating_button.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -24,7 +25,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
       create: (context) => HomeCubit()..getExpenses(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Expenses", style: TextStyle(color: Colors.white)),
+          title: Text("Expenses", style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
           backgroundColor: primaryColor,
           elevation: 0,
           surfaceTintColor: Colors.transparent,
@@ -114,7 +115,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
                 } return SizedBox();
              }),
         ]),
-        floatingActionButton: FloatingButton(""),
+        floatingActionButton: FloatingButton(ExpensesRequestScreen.routeName),
       )
     );
   }

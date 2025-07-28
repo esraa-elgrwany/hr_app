@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/icon_badge.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/status_badge.dart';
 import '../../view_model/home_cubit.dart';
@@ -14,68 +15,60 @@ class ExpensesCard extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
+          height: 180.h,
           padding: EdgeInsets.all(8),
           child: Card(
+            color:Theme.of(context).colorScheme.onBackground,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            //margin: EdgeInsets.only(bottom: 16),
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: Container(
-                height: 100,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StatusBadge("Submitted"),
-                        SizedBox(height: 16),
-                        Text(
-                            "${HomeCubit.get(context).expenses[index].totalAmountCurrency} SAR",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF121645))),
-                      ],
-                    ),
-                    Spacer(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Flexible(
-                          child: Text(
-                              "${HomeCubit.get(context).expenses[index].name}",
-                              maxLines: 2,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ),
-                        SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Text(
-                                "${HomeCubit.get(context).expenses[index].date}",
-                                style: TextStyle(color: Color(0XFF8e95a1))),
-                            SizedBox(width: 8),
-                            Icon(Icons.calendar_today_outlined,
-                                size: 16, color: Color(0XFF8e95a1)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Text(
+                        "${HomeCubit.get(context).expenses[index].name}",
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600
+                            )),
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                      "${HomeCubit.get(context).expenses[index].product?.name}",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                         )),
+                  SizedBox(height: 12.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_month_rounded,
+                              size: 24.sp, color:Color(0XFF37bf85)),
+                          SizedBox(width:4.w),
+                          Text(
+                              "${HomeCubit.get(context).expenses[index].date}",
+                              style: TextStyle(color: Color(0XFF8e95a1),fontSize: 14.sp,fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                      StatusBadge(HomeCubit.get(context).expenses[index].state?.toUpperCase()??"no state"),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
         Positioned(
-          top: 16,
+          top: 4,
           right: 0,
-          child: Align(alignment: Alignment.centerRight, child: IconBadge(img: "assets/images/budget_5545348.png",)),
+          child: Align(alignment: Alignment.centerRight, child: IconBadge(img: "assets/images/budget_7057639.png",)),
         ),
       ],
     );

@@ -53,7 +53,7 @@ class HolidayCard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.calendar_today_outlined,
+                              Icon(Icons.calendar_month_rounded,
                                   size: 18.sp, color:Color(0XFF37bf85)),
                               SizedBox(width: 8.w),
                               Text(
@@ -67,7 +67,7 @@ class HolidayCard extends StatelessWidget {
                           SizedBox(height: 8.h,),
                           Row(
                             children: [
-                              Icon(Icons.calendar_today_outlined,
+                              Icon(Icons.calendar_month_rounded,
                                   size: 18.sp, color:Color(0XFF37bf85)),
                               SizedBox(width: 8.w),
                               Text(
@@ -81,7 +81,7 @@ class HolidayCard extends StatelessWidget {
                         ],
                       ),
                       StatusBadge(
-                          "${HomeCubit.get(context).holidays[index].state}"),
+                          "${HomeCubit.get(context).holidays[index].state?.toUpperCase()??"no state"}"),
                     ],
                   ),
                 ],

@@ -35,34 +35,69 @@ class ExpensesResult {
   ExpensesResult({
     this.id,
     this.name,
-    this.productId,
-    this.totalAmountCurrency,
-    this.date,
+     this.product,
+     this.employee,
+     this.date,
+     this.state,
   });
 
   ExpensesResult.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
-    productId = (json['product_id'] is List && json['product_id'].length == 2)
-        ? json['product_id']
-        : (json['product_id'] == false ? false : null);
-    totalAmountCurrency = json['total_amount_currency'];
-    date = json['date'];
+    product= Product.fromList(json['product_id']);
+    employee= Employee.fromList(json['employee_id']);
+    date= json['date'];
+    state= json['state'];
   }
 
   int? id;
   String? name;
-  dynamic productId;
-  double? totalAmountCurrency;
+  Product? product;
+  Employee? employee;
   String? date;
+  String? state;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['product_id'] = productId;
-    map['total_amount_currency'] = totalAmountCurrency;
+    map['product_id'] = product;
+    map['employee_id'] = employee;
     map['date'] = date;
+    map['state'] = state;
     return map;
+  }
+}
+class Product {
+  final int id;
+  final String name;
+
+  Product({
+    required this.id,
+    required this.name,
+  });
+
+  factory Product.fromList(List<dynamic> list) {
+    return Product(
+      id: list[0],
+      name: list[1],
+    );
+  }
+}
+
+class Employee {
+  final int id;
+  final String name;
+
+  Employee({
+    required this.id,
+    required this.name,
+  });
+
+  factory Employee.fromList(List<dynamic> list) {
+    return Employee(
+      id: list[0],
+      name: list[1],
+    );
   }
 }

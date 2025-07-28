@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
+import 'package:hr_app/features/home_screen/presentation/view/salary_line_screen.dart';
+import 'package:hr_app/features/home_screen/presentation/view/salary_screen.dart';
+import 'package:hr_app/features/home_screen/presentation/view/screens/expenses_request_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/screens/holiday_request_screen.dart';
 import 'core/cache/shared_preferences.dart';
 import 'core/utils/observer.dart';
@@ -55,6 +58,9 @@ class MyApp extends StatelessWidget {
                   ExpensesTab.routeName: (context) => ExpensesTab(),
                   HolidayTab.routeName: (context) => HolidayTab(),
                   HolidayRequestScreen.routeName: (context) => HolidayRequestScreen(),
+                  ExpensesRequestScreen.routeName: (context) => ExpensesRequestScreen(),
+                  SalaryScreen.routeName: (context) => SalaryScreen(),
+                  SalaryLineScreen.routeName: (context) => SalaryLineScreen(),
                 },
           themeMode: SettingCubit.get(context).modeApp,
           theme: MyThemeData.lightTheme,

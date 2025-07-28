@@ -3,8 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:hr_app/core/cache/shared_preferences.dart';
 import 'package:hr_app/features/home_screen/data/model/employee_model.dart';
 import 'package:hr_app/features/home_screen/data/model/expenses_model.dart';
+import 'package:hr_app/features/home_screen/data/model/expenses_request_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_request_model.dart';
+import 'package:hr_app/features/home_screen/data/model/product_model.dart';
+import 'package:hr_app/features/home_screen/data/model/salary_line_model.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
 import 'package:hr_app/features/home_screen/data/model/status_model.dart';
 import '../../../../core/api_services/api-manager.dart';
@@ -35,7 +38,7 @@ class HomeRepoImpl implements HomeRepo {
               [
                 "employee_id",
                 "=",
-                CacheData.getEmployeeData(key: "employeeId") ?? 0
+                CacheData.getData(key: "employeeId") ?? 0
               ]
             ]
           ],
@@ -44,9 +47,9 @@ class HomeRepoImpl implements HomeRepo {
               "id",
               "name",
               "product_id",
-              "total_amount_currency",
               "employee_id",
-              "date"
+              "date",
+              "state"
             ],
             "limit": 100
           }
@@ -173,7 +176,7 @@ class HomeRepoImpl implements HomeRepo {
   }
 
  @override
-  Future<Either<Failures, SalaryModel>> getSalarySlip() async{
+  Future<Either<Failures, SalaryModel>> getSalary() async{
    final Map<String, dynamic> body = {
      "jsonrpc": "2.0",
      "method": "call",
@@ -187,7 +190,7 @@ class HomeRepoImpl implements HomeRepo {
          "hr.payslip",
          "search_read",
          [
-           [["employee_id", "=",CacheData.getEmployeeData(key: "employeeId") ?? 0]]  // Filter by employee_id
+           [["employee_id", "=",CacheData.getData(key: "employeeId") ?? 0]]
          ],
          {
            "fields": ["id", "name", "date_from", "date_to", "state", "employee_id", "line_ids"],
@@ -229,6 +232,7 @@ class HomeRepoImpl implements HomeRepo {
   @override
   Future<Either<Failures, HolidayRequestModel>> requestHoliday({required String name,required int statusId,required String fromDate,
     required String toDate}) async{
+    print("employeeId${CacheData.getData(key: "employeeId")}");
     Map<String, dynamic> requestBody = {
       "jsonrpc": "2.0",
       "method": "call",
@@ -243,13 +247,11 @@ class HomeRepoImpl implements HomeRepo {
           "create",
           [
             {
-              "employee_id":CacheData.getEmployeeData(key: "employeeId") ?? 0,
+              "employee_id":CacheData.getData(key: "employeeId") ?? 0,
               "holiday_status_id": statusId,
               "request_date_from": fromDate,
               "request_date_to": toDate,
               "name": name
-
-
             }
           ]
         ]
@@ -304,6 +306,146 @@ class HomeRepoImpl implements HomeRepo {
       return Right(model);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, ExpensesRequestModel>> requestExpenses({required String name, required int productId, required String date}) async{
+    print("employeeId${CacheData.getData(key: "employeeId")}");
+    Map<String, dynamic> requestBody = {
+      "jsonrpc": "2.0",
+      "method": "call",
+      "params": {
+        "service": "object",
+        "method": "execute_kw",
+        "args": [
+          "dhr-new-main-21965090",
+          2,
+          CacheData.getData(key: "password"),
+          "hr.expense",
+          "create",
+          [
+            {
+              "name":name,
+              "product_id": productId,
+              "employee_id": CacheData.getData(key: "employeeId"),
+              "date":date
+            }
+          ]
+        ]
+      },
+      "id": 1
+    }
+    ;
+
+    try {
+      Response response = await apiManager.postData(body: requestBody);
+      ExpensesRequestModel model = ExpensesRequestModel.fromJson(response.data);
+      print("ExpensesRequest +++++++++++++++++++++++++++++++${response.data}");
+      if (response.statusCode == 200) {
+        print("HolidayRequest Success: $model");
+        return Right(model);
+      } else {
+        print("ExpensesRequest Error: ${response.statusCode}");
+        return Left(ServerFailure("some thing went wrong"));
+      }
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, ProductModel>> getProducts() async{
+    final Map<String, dynamic> body = {
+      "jsonrpc": "2.0",
+      "method": "call",
+      "params": {
+        "service": "object",
+        "method": "execute_kw",
+        "args": [
+          "dhr-new-main-21965090",
+          2,
+          CacheData.getData(key: "password"),
+          "product.product",
+          "search_read",
+          [
+            [
+              ["can_be_expensed", "=",  "true"]
+            ]
+          ],
+          {
+            "fields": ["id", "name", "default_code", "lst_price"],
+            "limit": 1000
+          }
+        ]
+      },
+      "id": 1
+    };
+
+    try {
+      Response response = await apiManager.postData(body: body);
+      ProductModel model = ProductModel.fromJson(response.data);
+      print("Product data+++++++++++++++++++++++++++++++${response.data}");
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, SalaryLineModel>> getSalaryLine({required List<int>ids}) async{
+    final Map<String, dynamic> body = {
+      "jsonrpc": "2.0",
+      "method": "call",
+      "params": {
+        "service": "object",
+        "method": "execute_kw",
+        "args": [
+          "dhr-new-main-21965090",
+          2,
+          CacheData.getData(key: "password"),
+          "hr.payslip.line",
+          "search_read",
+          [
+            [
+              ["id", "in", ids
+              ],
+              ["name", "in", ["Net Salary", "Basic Salary", "Gross"]]
+            ]
+          ],
+          {
+            "fields": ["id", "name", "total", "slip_id"],
+            "limit": 10
+          }
+        ]
+      },
+      "id": 2
+    };
+
+    try {
+
+      final response = await apiManager.postData(body: body);
+
+      print("API Response: ${response.data}");
+
+      if (response.data == null || !response.data.containsKey('result')) {
+        return Left(ServerFailure("Invalid API response format"));
+      }
+
+      SalaryLineModel salaryModel =SalaryLineModel.fromJson(response.data);
+
+      if (response.statusCode == 200 &&
+          salaryModel.result != null &&
+          salaryModel.result!.isNotEmpty) {
+        print(" salarydata fetched successfully");
+        return Right(salaryModel);
+      } else {
+        print("Empty result from API");
+        return Left(ServerFailure("No salary line data found"));
+      }
+    } catch (e) {
+      print("Network Error: $e");
+      return Left(ServerFailure("Network Error: $e"));
     }
   }
 }

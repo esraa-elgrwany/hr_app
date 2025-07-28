@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr_app/core/cache/shared_preferences.dart';
 import 'package:hr_app/features/home_screen/data/model/employee_model.dart';
 import 'package:hr_app/features/home_screen/data/model/expenses_model.dart';
+import 'package:hr_app/features/home_screen/data/model/expenses_request_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_request_model.dart';
+import 'package:hr_app/features/home_screen/data/model/product_model.dart';
+import 'package:hr_app/features/home_screen/data/model/salary_line_model.dart';
+import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
 import 'package:hr_app/features/home_screen/data/model/status_model.dart';
 import 'package:meta/meta.dart';
 import '../../../../core/api_services/api-manager.dart';
@@ -18,6 +22,9 @@ class HomeCubit extends Cubit<HomeState> {
   static HomeCubit get(context) => BlocProvider.of(context);
   List<ExpensesResult> expenses = [];
   List<StatusResult> status = [];
+  List<ProductResult> products = [];
+  List<SalaryResult> salary = [];
+  List<SalaryLineResult> salaryLine = [];
   List<HolidayResult> holidays = [];
   List<dynamic> holidayReason = [];
   List<EmployeeResult> employee = [];
@@ -71,7 +78,22 @@ class HomeCubit extends Cubit<HomeState> {
       emit(RequestHolidaysError(l));
     }, (r) {
       emit(RequestHolidaysSuccess(r));
+      getHolidays();
       print("request Holiday cubit: $r");
+    });
+  }
+
+  requestExpenses({required String name,required int productId,required String date}) async {
+    emit(RequestExpensesLoading());
+    ApiManager apiManager = ApiManager();
+    HomeRepo homeRepo = HomeRepoImpl(apiManager);
+    var result = await homeRepo.requestExpenses(name: name, productId: productId, date: date);
+    result.fold((l) {
+      emit(RequestExpensesError(l));
+    }, (r) {
+      getExpenses();
+      emit(RequestExpensesSuccess(r));
+      print("request Expenses cubit: $r");
     });
   }
 
@@ -113,6 +135,48 @@ class HomeCubit extends Cubit<HomeState> {
       status = r.result ?? [];
       print("Status cubit$expenses");
       emit(GetStatusSuccess(r));
+    });
+  }
+
+
+  getProduct() async {
+    emit(GetProductLoading());
+    ApiManager apiManager = ApiManager();
+    HomeRepo homeRepo = HomeRepoImpl(apiManager);
+    var result = await homeRepo.getProducts();
+    result.fold((l) {
+      emit(GetProductError(l));
+    }, (r) {
+      products = r.result ?? [];
+      print("Products cubit$products");
+      emit(GetProductSuccess(r));
+    });
+  }
+  getSalary() async {
+    emit(GetSalaryLoading());
+    ApiManager apiManager = ApiManager();
+    HomeRepo homeRepo = HomeRepoImpl(apiManager);
+    var result = await homeRepo.getSalary();
+    result.fold((l) {
+      emit(GetSalaryError(l));
+    }, (r) {
+      salary = r.result ?? [];
+      print("Salary cubit$salary");
+      emit(GetSalarySuccess(r));
+    });
+  }
+
+  getSalaryLine({required List<int>ids}) async {
+    emit(GetSalaryLineLoading());
+    ApiManager apiManager = ApiManager();
+    HomeRepo homeRepo = HomeRepoImpl(apiManager);
+    var result = await homeRepo.getSalaryLine(ids:ids );
+    result.fold((l) {
+      emit(GetSalaryLineError(l));
+    }, (r) {
+      salaryLine = r.result ?? [];
+      print("Salary Line cubit$salaryLine");
+      emit(GetSalaryLineSuccess(r));
     });
   }
 }

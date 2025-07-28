@@ -19,7 +19,7 @@ class HolidayTab extends StatelessWidget {
       create: (context) => HomeCubit()..getHolidays(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Holidays", style: TextStyle(color: Colors.white)),
+          title: Text("Holidays", style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
           backgroundColor: primaryColor,
           elevation: 0,
           surfaceTintColor: Colors.transparent,

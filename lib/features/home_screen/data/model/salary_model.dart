@@ -11,14 +11,14 @@ class SalaryModel {
     if (json['result'] != null) {
       result = [];
       json['result'].forEach((v) {
-        result?.add(Result.fromJson(v));
+        result?.add(SalaryResult.fromJson(v));
       });
     }
   }
 
   String? jsonrpc;
   int? id;
-  List<Result>? result;
+  List<SalaryResult>? result;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -31,8 +31,8 @@ class SalaryModel {
   }
 }
 
-class Result {
-  Result({
+class SalaryResult {
+  SalaryResult({
     this.id,
     this.name,
     this.dateFrom,
@@ -42,7 +42,7 @@ class Result {
     this.lineIds,
   });
 
-  Result.fromJson(dynamic json) {
+  SalaryResult.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     dateFrom = json['date_from'];
