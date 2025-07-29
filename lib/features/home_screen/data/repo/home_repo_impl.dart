@@ -6,6 +6,7 @@ import 'package:hr_app/features/home_screen/data/model/expenses_model.dart';
 import 'package:hr_app/features/home_screen/data/model/expenses_request_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_request_model.dart';
+import 'package:hr_app/features/home_screen/data/model/news_model.dart';
 import 'package:hr_app/features/home_screen/data/model/product_model.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_line_model.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
@@ -446,6 +447,39 @@ class HomeRepoImpl implements HomeRepo {
     } catch (e) {
       print("Network Error: $e");
       return Left(ServerFailure("Network Error: $e"));
+    }
+  }
+
+  @override
+  Future<Either<Failures, NewsModel>> getNews() async{
+    final Map<String, dynamic> body = {
+      "jsonrpc": "2.0",
+      "method": "call",
+      "params": {
+        "service": "object",
+        "method": "execute_kw",
+        "args": [
+          "dhr-new-main-21965090",
+          2,
+          CacheData.getData(key: "password"),
+          "hr.announcement",
+          "search_read",
+          [
+            [],
+            ["name", "announcement","date_start"]
+          ]
+        ]
+      },
+      "id": 1
+    };
+
+    try {
+      Response response = await apiManager.postData(body: body);
+      NewsModel model = NewsModel.fromJson(response.data);
+      print("NewsModel data+++++++++++++++++++++++++++++++${response.data}");
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

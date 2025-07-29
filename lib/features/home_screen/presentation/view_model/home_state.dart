@@ -129,3 +129,16 @@ class RequestExpensesError extends HomeState {
 
   RequestExpensesError(this.failures);
 }
+class GetNewsLoading extends HomeState {}
+
+class GetNewsSuccess extends HomeState {
+  NewsModel data;
+
+  GetNewsSuccess(this.data);
+}
+
+class GetNewsError extends HomeState {
+  Failures failures;
+
+  GetNewsError(this.failures);
+}

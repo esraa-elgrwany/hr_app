@@ -6,6 +6,7 @@ import 'package:hr_app/features/home_screen/data/model/expenses_model.dart';
 import 'package:hr_app/features/home_screen/data/model/expenses_request_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_model.dart';
 import 'package:hr_app/features/home_screen/data/model/holiday_request_model.dart';
+import 'package:hr_app/features/home_screen/data/model/news_model.dart';
 import 'package:hr_app/features/home_screen/data/model/product_model.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_line_model.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
@@ -23,6 +24,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<ExpensesResult> expenses = [];
   List<StatusResult> status = [];
   List<ProductResult> products = [];
+  List<NewsResult> news = [];
   List<SalaryResult> salary = [];
   List<SalaryLineResult> salaryLine = [];
   List<HolidayResult> holidays = [];
@@ -136,11 +138,24 @@ class HomeCubit extends Cubit<HomeState> {
       emit(GetStatusError(l));
     }, (r) {
       status = r.result ?? [];
-      print("Status cubit$expenses");
+      print("Status cubit$status");
       emit(GetStatusSuccess(r));
     });
   }
 
+  getNews() async {
+    emit(GetNewsLoading());
+    ApiManager apiManager = ApiManager();
+    HomeRepo homeRepo = HomeRepoImpl(apiManager);
+    var result = await homeRepo.getNews();
+    result.fold((l) {
+      emit(GetNewsError(l));
+    }, (r) {
+      news = r.result ?? [];
+      print("News cubit$news");
+      emit(GetNewsSuccess(r));
+    });
+  }
 
   getProduct() async {
     emit(GetProductLoading());

@@ -50,8 +50,8 @@ class ExpensesCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(Icons.calendar_month_rounded,
-                              size: 24.sp, color:Color(0XFF37bf85)),
-                          SizedBox(width:4.w),
+                              size: 22.sp, color:Color(0XFF37bf85)),
+                          SizedBox(width:8.w),
                           Text(
                               "${HomeCubit.get(context).expenses[index].date}",
                               style: TextStyle(color: Color(0XFF8e95a1),fontSize: 14.sp,fontWeight: FontWeight.w600)),
