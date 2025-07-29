@@ -1,4 +1,9 @@
 
+import 'package:hr_app/features/home_screen/data/model/attend_out_model.dart';
+
+import '../../../../core/failures/failures.dart';
+import '../../data/model/attend_model.dart';
+
 abstract class AttendanceState {}
 
 class AttendanceInitial extends AttendanceState {}
@@ -6,39 +11,36 @@ class AttendanceInitial extends AttendanceState {}
 class CheckInLoading extends AttendanceState {}
 
 class CheckInSuccess extends AttendanceState {
-  final String checkInTime;
-  final int elapsedTime;
-
-  CheckInSuccess({
-    required this.checkInTime,
-    required this.elapsedTime,
-  });
+  AttendModel model;
+  CheckInSuccess(
+   this.model
+  );
 }
 
 class CheckInFailure extends AttendanceState {
-  final String errorMessage;
+  String failures;
 
-  CheckInFailure(this.errorMessage);
+  CheckInFailure(this.failures);
 }
 
 class CheckOutLoading extends AttendanceState {}
 
 class CheckOutSuccess extends AttendanceState {
-  final String checkInTime;
-  final String? checkOutTime;
-  final int elapsedTime;
+  AttendOutModel model;
 
-  CheckOutSuccess({
-    required this.checkInTime,
-    this.checkOutTime,
-    required this.elapsedTime,
-  });
+  CheckOutSuccess(this.model);
 }
 
 class CheckOutFailure extends AttendanceState {
-  final String errorMessage;
+  String failures;
 
-  CheckOutFailure(this.errorMessage);
+  CheckOutFailure(this.failures);
 }
+class AttendanceTimerRunning extends AttendanceState {
+  final String duration;
+  AttendanceTimerRunning(this.duration);
+}
+
+class AttendanceTimerStopped extends AttendanceState {}
 
 

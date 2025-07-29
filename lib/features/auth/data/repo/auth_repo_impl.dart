@@ -7,7 +7,6 @@ import 'auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
   ApiManager apiManager;
-  int? id = CacheData.getData(key: "userId");
 
   AuthRepoImpl(this.apiManager);
 

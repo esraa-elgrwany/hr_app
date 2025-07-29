@@ -45,44 +45,64 @@ class _LoginFormState extends State<LoginForm> {
                   Text("Username",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.black,
                           fontSize: 18.sp)),
                   SizedBox(height: 8.h),
-                  TextFormItem(
-                      controller: userController,
-                      hint: "Username",
-                      icon: Icons.person,
-                      validateTxt: "please enter your username"),
+                  TextFormField(
+                    controller: userController,
+                    style: TextStyle(
+                        color:Colors.black,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: secondPrimary,
+                      hintText: 'username',
+                      hintStyle: TextStyle(
+                          color: thirdPrimary,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(
+                              color: secondPrimary)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(
+                              color:secondPrimary)),
+                      prefixIcon: Icon(Icons.person, color: thirdPrimary,size: 24.sp),
+                    ),
+                  ),
                   SizedBox(height: 20.h),
                   Text("Password",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.black,
                           fontSize: 18.sp)),
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: passwordController,
                     obscureText: secure ? true : false,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color:Colors.black,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Theme.of(context).colorScheme.secondary,
+                      fillColor: secondPrimary,
                       hintText: 'Password',
                       hintStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
+                          color: thirdPrimary,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.secondary)),
+                              color: secondPrimary)),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.secondary)),
+                              color:secondPrimary)),
                       suffixIcon: IconButton(
                         onPressed: () {
                           secure = !secure;

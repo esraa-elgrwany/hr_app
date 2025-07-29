@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => AttendanceCubit(),
+  child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           toolbarHeight: 80,
@@ -91,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ))),
-        body: tabs[index]);
+        body: tabs[index]),
+);
   }
 }

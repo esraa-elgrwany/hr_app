@@ -120,7 +120,6 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    color: primaryColor,
                                   ),
                                 ),
                                 SizedBox(height: 8.h),
@@ -129,25 +128,32 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                   maxLines: 1,
                                   style: TextStyle(
                                       fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                   decoration: InputDecoration(
                                     hintText: 'name',
                                     suffixIcon: Icon(
                                       Icons.edit,
                                       size: 22.sp,
+                                      color: Theme.of(context).colorScheme.onSecondary,
                                     ),
                                     hintStyle: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500),
                                     filled: true,
-                                    fillColor:Theme.of(context).colorScheme.secondary,
+                                    fillColor:
+                                        Theme.of(context).colorScheme.secondary,
                                     enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(color:Theme.of(context).colorScheme.secondary)),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(color:Theme.of(context).colorScheme.secondary)),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
                                   ),
                                 ),
                                 SizedBox(height: 16.h),
@@ -156,7 +162,6 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    color: primaryColor,
                                   ),
                                 ),
                                 SizedBox(height: 8.h),
@@ -164,38 +169,39 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   decoration: BoxDecoration(
-                                    color: secondPrimary,
+                                    color:Theme.of(context).colorScheme.secondary,
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: BlocBuilder<HomeCubit, HomeState>(
                                     builder: (context, state) {
                                       final leaveTypes =
                                           HomeCubit.get(context).status;
-                                      return DropdownButtonFormField<StatusResult>(
-                                        value:leaveTypeList ,
+                                      return DropdownButtonFormField<
+                                          StatusResult>(
+                                        value: leaveTypeList,
                                         hint: Text(
                                           'Leave type',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14.sp,
-                                            color: primaryColor,
+                                            color:Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.sp,
-                                          color: primaryColor,
+                                          color:Theme.of(context).colorScheme.onSurface,
                                         ),
-                                        icon: const Icon(
+                                        icon: Icon(
                                           Icons.keyboard_arrow_down,
-                                          color: Colors.black,
+                                          color: Theme.of(context).colorScheme.onSurface,
                                         ),
                                         isExpanded: true,
                                         decoration: const InputDecoration(
                                             border: InputBorder.none),
                                         dropdownColor: Theme.of(context)
                                             .colorScheme
-                                            .background,
+                                            .onBackground,
                                         items: leaveTypes.map((type) {
                                           return DropdownMenuItem<StatusResult>(
                                             value: type,
@@ -206,8 +212,8 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                             ? 'Please select leave type'
                                             : null,
                                         onChanged: (value) => setState(() {
-                                          leaveTypeList=value;
-                                          selectedLeaveType = value?.name??"";
+                                          leaveTypeList = value;
+                                          selectedLeaveType = value?.name ?? "";
                                         }),
                                       );
                                     },
@@ -225,7 +231,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                 Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    color: secondPrimary,
+                                    color: Theme.of(context).colorScheme.secondary,
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: Row(
@@ -300,7 +306,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                             pickDate(context, isFrom: true),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: secondPrimary,
+                                            color:Theme.of(context).colorScheme.secondary,
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
@@ -313,7 +319,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                               Text(
                                                 'Select the day',
                                                 style: TextStyle(
-                                                    color: thirdPrimary,
+                                                    color:Theme.of(context).colorScheme.onSecondary,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16.sp),
                                               ),
@@ -516,7 +522,8 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                               ],
                                             ),
                                           );
-                                        } else if (state is RequestHolidaysSuccess) {
+                                        } else if (state
+                                            is RequestHolidaysSuccess) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -544,20 +551,36 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                           );
                                           Navigator.pushReplacement(
                                             context,
-                                            MaterialPageRoute(builder: (_) => HolidayTab()),
+                                            MaterialPageRoute(
+                                                builder: (_) => HolidayTab()),
                                           );
                                         }
                                       },
                                       child: InkWell(
                                         onTap: () {
-                                          print("to date:${formatDate(toDate)}");
-                                          print("from date:${formatDate(fromDate)}");
-                                          print("status ID:${leaveTypeList?.id}");
+                                          print(
+                                              "to date:${formatDate(toDate)}");
+                                          print(
+                                              "from date:${formatDate(fromDate)}");
+                                          print(
+                                              "status ID:${leaveTypeList?.id}");
                                           print("name:${nameController.text}");
-                                          HomeCubit.get(context).requestHolidays(
-                                              name:nameController.text, statusId:leaveTypeList?.id ??0,
-                                              fromDate:isMultipleDays?formatDate(fromDate):formatDate(selectedDate),
-                                              toDate:isMultipleDays?formatDate(toDate):formatDate(selectedDate));
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            HomeCubit.get(context)
+                                                .requestHolidays(
+                                                    name: nameController.text,
+                                                    statusId:
+                                                        leaveTypeList?.id ?? 0,
+                                                    fromDate: isMultipleDays
+                                                        ? formatDate(fromDate)
+                                                        : formatDate(
+                                                            selectedDate),
+                                                    toDate: isMultipleDays
+                                                        ? formatDate(toDate)
+                                                        : formatDate(
+                                                            selectedDate));
+                                          }
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(

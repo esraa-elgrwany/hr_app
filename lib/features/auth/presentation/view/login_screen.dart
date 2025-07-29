@@ -34,20 +34,24 @@ class _LoginScreenState extends State<LoginScreen> {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.onBackground,
                 title: Text("Error"),
                 content: Text(state.failure.errormsg),
                 actions: [
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child:
-                          Text("okay", style: TextStyle(color: Colors.green))),
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // ✅ Set background color
+                    ),
+                    child: Text("Okay", style: TextStyle(color: Colors.green)),
+                  ),
                 ],
               ),
             );
           } else if (state is LoginSuccess) {
             context.read<HomeCubit>().getEmployee(id: state.loginModel.result!);
+            CacheData.getData(key: "employeeId");
+            CacheData.getData(key: "employeeName");
             CacheData.saveId(data: state.loginModel.result, key: "userId");
             Navigator.push(
                 context,
@@ -60,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (context) => AlertDialog(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                title: Center(child: CircularProgressIndicator()),
+                title: Center(child: CircularProgressIndicator(color: Colors.green,)),
               ),
             );
           }

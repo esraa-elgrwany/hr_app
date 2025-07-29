@@ -87,7 +87,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                         key: _formKey,
                         child: Card(
                           color: Theme.of(context).colorScheme.background,
-                          elevation: 4,
+                          elevation: 8,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -101,7 +101,6 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    color: primaryColor,
                                   ),
                                 ),
                                 SizedBox(height: 8.h),
@@ -117,6 +116,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                     suffixIcon: Icon(
                                       Icons.edit,
                                       size: 22.sp,
+                                      color: Theme.of(context).colorScheme.onSecondary,
                                     ),
                                     hintStyle: TextStyle(
                                         fontSize: 14.sp,
@@ -137,7 +137,6 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    color: primaryColor,
                                   ),
                                 ),
                                 SizedBox(height: 8.h),
@@ -145,7 +144,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   decoration: BoxDecoration(
-                                    color: secondPrimary,
+                                    color: Theme.of(context).colorScheme.secondary,
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: BlocBuilder<HomeCubit, HomeState>(
@@ -159,24 +158,24 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14.sp,
-                                            color: primaryColor,
+                                            color: Theme.of(context).colorScheme.onSurface
                                           ),
                                         ),
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.sp,
-                                          color: primaryColor,
+                                          color: Theme.of(context).colorScheme.onSurface
                                         ),
-                                        icon: const Icon(
+                                        icon:  Icon(
                                           Icons.keyboard_arrow_down,
-                                          color: Colors.black,
+                                          color:Theme.of(context).colorScheme.onSecondary,
                                         ),
                                         isExpanded: true,
                                         decoration: const InputDecoration(
                                             border: InputBorder.none),
                                         dropdownColor: Theme.of(context)
                                             .colorScheme
-                                            .background,
+                                            .onBackground,
                                         items: productTypes.map((type) {
                                           return DropdownMenuItem<ProductResult>(
                                             value: type,
@@ -212,7 +211,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                             pickDate(context, isFrom: true),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: secondPrimary,
+                                            color: Theme.of(context).colorScheme.secondary,
                                             borderRadius:
                                             BorderRadius.circular(20),
                                           ),
@@ -225,7 +224,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                               Text(
                                                 'Select the day',
                                                 style: TextStyle(
-                                                    color: thirdPrimary,
+                                                    color:Theme.of(context).colorScheme.onSecondary,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16.sp),
                                               ),
@@ -335,9 +334,10 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                           print("date:${formatDate(selectedDate)}");
                                           print("product ID:${product?.id??0}");
                                           print("name:${nameController.text}");
+                                          if (_formKey.currentState!.validate()){
                                           HomeCubit.get(context).requestExpenses(
                                             name: nameController.text,date: formatDate(selectedDate),productId: product?.id??0
-                                             );
+                                             );}
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(

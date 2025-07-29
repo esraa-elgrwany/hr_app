@@ -29,7 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<dynamic> holidayReason = [];
   List<EmployeeResult> employee = [];
   int employeeUId = 0;
-
+ String employeeName="";
   HomeCubit() : super(HomeInitial());
 
   getExpenses() async {
@@ -110,15 +110,18 @@ class HomeCubit extends Cubit<HomeState> {
         if (employee[0].employeeIds != null &&
             employee[0].employeeIds!.isNotEmpty) {
           employeeUId = employee[0].employeeIds![0];
+          employeeName=employee[0].name??"";
         } else {
           employeeUId = 0;
         }
 
         print("employee uidt+++++++++++++++++ ${employeeUId}");
         print("employee result+++++++++++++++++ ${employee}");
-        CacheData.saveEmployeeId(data: employeeUId, key: "employeeId");
-        CacheData.getEmployeeData(key: "employeeId");
-        print(CacheData.getEmployeeData(key: "employeeId"));
+        CacheData.saveId(data: employeeUId, key: "employeeId");
+        CacheData.saveId(data: employeeName, key: "employeeName");
+        CacheData.getData(key: "employeeId");
+        print(CacheData.getData(key: "employeeId"));
+        print(CacheData.getData(key: "employeeName"));
         emit(GetEmployeeSuccess(r));
       }
     });

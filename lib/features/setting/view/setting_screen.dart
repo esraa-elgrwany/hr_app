@@ -228,6 +228,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                 onTap: () async{
                                   CacheData.removeData("userId");
                                   CacheData.removeData("password");
+                                  CacheData.removeData("employeeId");
+                                  CacheData.removeData("employeeName");
                                   Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                                 },
                                 child: Image.asset(

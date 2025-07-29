@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_app/core/cache/shared_preferences.dart';
+import 'package:hr_app/core/utils/styles/colors.dart';
 import 'package:hr_app/features/home_screen/presentation/view/Expenses_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/salary_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_cubit.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_state.dart';
+import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class HomeTab extends StatelessWidget {
@@ -13,51 +17,79 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AttendanceCubit(),
-      child: BlocConsumer<AttendanceCubit, AttendanceState>(
+    return  BlocConsumer<AttendanceCubit, AttendanceState>(
         listener: (context, state) {
-          if (state is CheckInFailure) {
+          if (state is CheckInFailure || state is CheckOutFailure) {
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
+              builder: (_) => AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.onBackground,
                 title: Text("Error"),
-                content: Text(state.errorMessage),
+                content: Text(state is CheckInFailure
+                    ? state.failures
+                    : (state as CheckOutFailure).failures),
                 actions: [
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child:
-                          Text("okay", style: TextStyle(color: Colors.green))),
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
+                    child: Text("Okay", style: TextStyle(color: Colors.green)),
+                  ),
                 ],
               ),
             );
           }
-          if (state is CheckOutFailure) {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text("Error"),
-                content: Text(state.errorMessage),
-                actions: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child:
-                          Text("okay", style: TextStyle(color: Colors.green))),
-                ],
+
+          if (state is CheckInSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Center(
+                  child: Text(
+                    "Check In Successfully",
+                    style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 4),
+                behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.all(24),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+              ),
+            );
+          }
+
+          if (state is CheckOutSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Center(
+                  child: Text(
+                    "Check Out Successfully",
+                    style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 4),
+                behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.all(24),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 4),
               ),
             );
           }
         },
         builder: (context, state) {
+          final cubit = AttendanceCubit.get(context);
           return SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildHeader(),
+                  _buildHeader(CacheData.getData(key: "employeeName")??""),
                   Card(
                     color: Theme.of(context).colorScheme.onBackground,
                     margin: EdgeInsets.all(16),
@@ -69,175 +101,98 @@ class HomeTab extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            AttendanceCubit.get(context).formatElapsedTime(
-                                AttendanceCubit.get(context).elapsedTime),
-                            style: TextStyle(
-                                fontSize: 48.sp, fontWeight: FontWeight.bold),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildTimeUnit(context, cubit.formattedElapsed.split(':')[0]), // Hours
+                              _buildColon(context),
+                              _buildTimeUnit(context, cubit.formattedElapsed.split(':')[1]), // Minutes
+                              _buildColon(context),
+                              _buildTimeUnit(context, cubit.formattedElapsed.split(':')[2]), // Seconds
+                            ],
                           ),
+
                           SizedBox(height: 16.h),
-                          // Display current date
                           Text(
-                            AttendanceCubit.get(context).formatCurrentDate(),
+                            cubit.formattedCurrentDayAndDate(),
                             style: TextStyle(
                                 fontSize: 18.sp, fontWeight: FontWeight.w500),
                           ),
                           SizedBox(height: 20.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          Stack(
                             children: [
-                              Column(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    'Check In',
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 18.sp),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Check In',
+                                        style: TextStyle(
+                                            color: Colors.green, fontSize: 18.sp),
+                                      ),
+                                      Text(
+                                          cubit.checkInTime != null
+                                              ? DateFormat('HH:mm:ss').format(cubit.checkInTime!)
+                                              : '--:--:--',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    AttendanceCubit.get(context).checkInTime ??
-                                        '--:--:--',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
-                                  )
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Check Out',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 18.sp),
+                                      ),
+                                      Text(
+                                        cubit.checkOutTime != null
+                                            ? DateFormat('HH:mm:ss').format(cubit.checkOutTime!)
+                                            : '--:--:--',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    'Check Out',
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 18.sp),
+                              if (state is CheckInLoading || state is CheckOutLoading)
+                                Positioned(
+                                  child: Container(
+                                    child: Center(child: CircularProgressIndicator(
+                                      color: Colors.green,
+                                    )),
+                                    height: 50.h,
+                                    width: double.infinity,
                                   ),
-                                  Text(
-                                    AttendanceCubit.get(context).checkOutTime ??
-                                        '--:--:--',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
-                              ),
+                                ),
                             ],
                           ),
                           SizedBox(height: 16.h),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              BlocListener<AttendanceCubit, AttendanceState>(
-                                  listener: (context, state) {
-                                    if (state is CheckInFailure) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text("Error"),
-                                          content: Text(state.errorMessage),
-                                          actions: [
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("okay",
-                                                    style: TextStyle(
-                                                        color: Colors.green))),
-                                          ],
-                                        ),
-                                      );
-                                    } else if (state is CheckInSuccess) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Center(
-                                              child: Text(
-                                                "Check In Successfully",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16.sp),
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.green,
-                                            duration: Duration(seconds: 4),
-                                            behavior: SnackBarBehavior.floating,
-                                            margin: EdgeInsets.all(24),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12, horizontal: 4)),
-                                      );
-                                    }
-                                  },
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      AttendanceCubit.get(context)
-                                          .handleCheckIn();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.green),
-                                    child: Text(
-                                      'Check In',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )),
-                              BlocListener<AttendanceCubit, AttendanceState>(
-                                listener: (context, state) {
-                                  if (state is CheckOutFailure) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: Text("Error"),
-                                        content: Text(state.errorMessage),
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("okay",
-                                                  style: TextStyle(
-                                                      color: Colors.green))),
-                                        ],
-                                      ),
-                                    );
-                                  } else if (state is CheckOutSuccess) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Center(
-                                            child: Text(
-                                              "Check out Successfully",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16.sp),
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.green,
-                                          duration: Duration(seconds: 4),
-                                          behavior: SnackBarBehavior.floating,
-                                          margin: EdgeInsets.all(24),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 12, horizontal: 4)),
-                                    );
-                                  }
-                                },
-                               child:  ElevatedButton(
-                                    onPressed: () {
-                                      AttendanceCubit.get(context)
-                                          .handleCheckOut();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red),
-                                    child: Text(
-                                      'Check Out',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )
+                              ElevatedButton(
+                                onPressed: () => cubit.checkIn(),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green),
+                                child: Text(
+                                  'Check In',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => cubit.checkOut(),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red),
+                                child: Text(
+                                  'Check Out',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ],
                           ),
@@ -251,11 +206,11 @@ class HomeTab extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 
-  Widget _buildHeader() {
+
+  Widget _buildHeader(String user) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -272,7 +227,7 @@ class HomeTab extends StatelessWidget {
               Text('Welcome',
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
-              Text("Administrator",
+              Text(user,
                   style: TextStyle(fontSize: 18.sp, color: Colors.grey)),
             ],
           ),
@@ -372,6 +327,46 @@ class HomeTab extends StatelessWidget {
       ),
     );
   }
+  Widget _buildTimeUnit(BuildContext context, String unit) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.w),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(2, 2),
+          ),
+        ],
+      ),
+      child: Text(
+        unit,
+        style: TextStyle(
+          fontSize: 36.sp,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.background,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildColon(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      child: Text(
+        ":",
+        style: TextStyle(
+          fontSize: 36.sp,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.onSurface, // ← change color here
+        ),
+      ),
+    );
+  }
+
 
   Widget _buildQuickAccessCard(String title, String img, Color color,
       Color txtColor, Color iconColor) {

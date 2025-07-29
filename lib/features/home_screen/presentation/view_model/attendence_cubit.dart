@@ -1,131 +1,119 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_app/core/cache/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/Api_Services/Api-Manager.dart';
-import '../../../../core/Failures/Failures.dart';
-import '../../Data/Model/attend_model.dart';
-import '../../Data/Repo/attend_repo_impl.dart';
-import '../../Data/Repo/attend_repo.dart';
+import '../../../../core/api_services/api-manager.dart';
+import '../../data/model/attend_model.dart';
+import '../../data/repo/attend_repo.dart';
+import '../../data/repo/attend_repo_impl.dart';
 import 'attendence_state.dart';
 
 class AttendanceCubit extends Cubit<AttendanceState> {
-  Timer? _timer;
-  int elapsedTime = 0;
-  String? checkInTime;
-  String? checkOutTime;
   static AttendanceCubit get(context) => BlocProvider.of(context);
-  AttendanceCubit() : super(AttendanceInitial()) {
-    startTimer();
+
+  Timer? _timer;
+  Duration _elapsed = Duration.zero;
+  DateTime? _checkInTime;
+  DateTime? _checkOutTime;
+  int? attendanceId;
+  bool _isCheckedIn = false;
+
+  AttendanceCubit() : super(AttendanceInitial());
+
+  bool get isCheckedIn => _isCheckedIn;
+  DateTime? get checkInTime => _checkInTime;
+  DateTime? get checkOutTime => _checkOutTime;
+
+
+  String get formattedElapsed {
+    final hours = _elapsed.inHours.toString().padLeft(2, '0');
+    final minutes = (_elapsed.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (_elapsed.inSeconds % 60).toString().padLeft(2, '0');
+    return "$hours:$minutes:$seconds";
+  }
+
+  String formatCurrentDate() {
+    return DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now());
+  }
+
+  String formattedCurrentDayAndDate() {
+    final now = DateTime.now();
+    final formatter = DateFormat('EEEE, d MMMM yyyy'); // e.g., Tuesday, 29 July 2025
+    return formatter.format(now);
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      elapsedTime++;
-      if (state is CheckInSuccess) {
-        emit(CheckInSuccess(
-          checkInTime: checkInTime ?? '--:--:--',
-          elapsedTime: elapsedTime,
-        ));
-      } else if (state is CheckOutSuccess) {
-        emit(CheckOutSuccess(
-          checkInTime: checkInTime ?? '--:--:--',
-          checkOutTime: checkOutTime,
-          elapsedTime: elapsedTime,
-        ));
-      }
+    _checkInTime = DateTime.now();
+    _elapsed = Duration.zero;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _elapsed = DateTime.now().difference(_checkInTime!);
+      emit(AttendanceTimerRunning(formattedElapsed));
     });
   }
 
-
   void stopTimer() {
     _timer?.cancel();
-  }
-  String formatElapsedTime(int seconds) {
-    final hours = (seconds ~/ 3600).toString().padLeft(2, '0');
-    final minutes = ((seconds % 3600) ~/ 60).toString().padLeft(2, '0');
-    final secs = (seconds % 60).toString().padLeft(2, '0');
-
-    return "$hours:$minutes:$secs";
+    _elapsed = Duration.zero;
+    emit(AttendanceTimerStopped());
   }
 
-  String formatTime(String rawTime) {
-    DateTime parsedTime = DateTime.parse(rawTime);
-    return DateFormat('EEE, MMM d, yyyy - h:mm a').format(parsedTime);
-  }
-  String formatCurrentDate() {
-    DateTime now = DateTime.now();
-    return DateFormat('EEE, MMM d, yyyy').format(now);
-  }
-
-  Future<void> handleCheckIn() async {
-    if (checkInTime != null) {
-      emit(CheckInFailure('Already checked in'));
+  Future<void> checkIn() async {
+    if (_isCheckedIn) {
+      emit(CheckInFailure("Already checked in. Please check out first."));
       return;
     }
     emit(CheckInLoading());
-    String currentTime = DateTime.now().toIso8601String();
-    elapsedTime = 0;
-    Map<String, dynamic> params = {
-      "employee_id": CacheData.getEmployeeData(key: "employeeId") ?? 0,
-      "check_in":currentTime,
-      "in_mode": "systray",
-      "in_country_name": "Egypt",
-      "in_latitude": 30.0434000,
-      "in_longitude": 31.2352,
-      "in_browser": "mobile app"
-    };
-    ApiManager apiManager=ApiManager();
-    AttendRepo attendRepo = AttendRepoImpl(apiManager);
-    final Either<Failures, AttendModel> result = await attendRepo.checkIn(params);
 
+    String checkInTimeStr = formatCurrentDate();
+    ApiManager apiManager = ApiManager();
+    AttendRepo repo = AttendRepoImpl(apiManager);
+    final result = await repo.checkIn(checkInTime: checkInTimeStr);
     result.fold(
-          (l) => emit(CheckInFailure(l.toString())),
-          (r) {
-        checkInTime = formatTime(currentTime);
-        emit(CheckInSuccess(
-          checkInTime: checkInTime!,
-          elapsedTime: elapsedTime,
-        ));
+      (l) {
+        emit(CheckInFailure(l.errormsg));
+      },
+      (r) {
+        _isCheckedIn = true;
+        attendanceId = r?.result ?? 0;
+        startTimer();
+        print("check in${r.result}");
+        emit(CheckInSuccess(r));
       },
     );
   }
 
-  Future<void> handleCheckOut() async {
-    if (checkOutTime != null) {
-      emit(CheckOutFailure('Already checked out'));
+  Future<void> checkOut() async {
+    if (!_isCheckedIn ||attendanceId == null) {
+      emit(CheckOutFailure("You haven't checked in yet."));
       return;
     }
+
     emit(CheckOutLoading());
-    String currentTime = DateTime.now().toIso8601String();
-    Map<String, dynamic> params = {
-      "employee_id": CacheData.getEmployeeData(key: "employeeId") ?? 0,
-      "check_in": DateTime.now().toIso8601String(),
-      "in_mode": "systray",
-      "in_browser": "mobile app",
-      "in_country_name": "Egypt",
-      "in_latitude": 30.0434000,
-      "in_longitude": 31.2352,
-    };
 
-    ApiManager apiManager=ApiManager();
-    AttendRepo attendRepo = AttendRepoImpl(apiManager);
-    final Either<Failures, AttendModel> result = await attendRepo.checkOut(params);
-
+    _checkOutTime = DateTime.now();
+    String checkOutTimeStr =
+    DateFormat("yyyy-MM-dd HH:mm:ss").format(_checkOutTime!);
+    ApiManager apiManager = ApiManager();
+    AttendRepo repo = AttendRepoImpl(apiManager);
+    final result =
+        await repo.checkOut(id: attendanceId!, checkoutTime: checkOutTimeStr);
     result.fold(
-          (failure) => emit(CheckOutFailure(failure.toString())),
-          (attendance) {
-        checkOutTime = formatTime(currentTime);
-        emit(CheckOutSuccess(
-          checkInTime: checkInTime ?? '--:--:--',
-          checkOutTime: checkOutTime,
-          elapsedTime: elapsedTime,
-        ));
+      (failure) {
+        emit(CheckOutFailure(failure.errormsg));
+      },
+      (r) {
+        _isCheckedIn = false;
+        attendanceId=null;
+        stopTimer();
+        print("check out${r.result}");
+        emit(CheckOutSuccess(r));
       },
     );
   }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
 }
-
-
