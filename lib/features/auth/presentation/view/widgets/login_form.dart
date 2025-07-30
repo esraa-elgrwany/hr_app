@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1.75,
+      height: MediaQuery.of(context).size.height / 1.85,
       child: Card(
         margin: EdgeInsets.all(8),
         color: Colors.white,
@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
                 topStart: Radius.circular(24),
                 topEnd: Radius.circular(24),
                 bottomStart: Radius.circular(24),
-                bottomEnd: Radius.circular(100))),
+                bottomEnd: Radius.circular(80))),
         child: Container(
           padding: EdgeInsets.all(16),
           child: Center(
@@ -47,13 +47,13 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontSize: 18.sp)),
+                          fontSize: 16.sp)),
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: userController,
                     style: TextStyle(
                         color:Colors.black,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                       filled: true,
@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
                       hintText: AppLocalizations.of(context)!.usernameHint,
                       hintStyle: TextStyle(
                           color: thirdPrimary,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -79,14 +79,14 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontSize: 18.sp)),
+                          fontSize: 16.sp)),
                   SizedBox(height: 8.h),
                   TextFormField(
                     controller: passwordController,
                     obscureText: secure ? true : false,
                     style: TextStyle(
                         color:Colors.black,
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                       filled: true,
@@ -94,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
                       hintText: AppLocalizations.of(context)!.passHint,
                       hintStyle: TextStyle(
                           color: thirdPrimary,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -137,7 +137,6 @@ class _LoginFormState extends State<LoginForm> {
                           )),
                     ],
                   ),
-                  SizedBox(height: 16.h),
                 ],
               ),
             ),
