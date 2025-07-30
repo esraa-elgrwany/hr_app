@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hr_app/core/utils/styles/colors.dart';
-import 'package:hr_app/features/auth/presentation/view/login_screen.dart';
-import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/home_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/news_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/notification_tab.dart';
-import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
 import 'package:hr_app/features/setting/view/setting_screen.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import '../../../../core/cache/shared_preferences.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import '../view_model/attendence_cubit.dart';
-import '../view_model/attendence_state.dart';
-import 'Expenses_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
@@ -70,26 +63,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: Icon(
                         Icons.home,
                       ),
-                      label: "Home",
+                      label:AppLocalizations.of(context)!.homeTab,
                     ),
                     BottomNavigationBarItem(
                         backgroundColor:Theme.of(context).colorScheme.secondary,
                         icon: Icon(
                           Icons.notifications_on_rounded,
                         ),
-                        label: "Notification"),
+                        label:AppLocalizations.of(context)!.notifications),
                     BottomNavigationBarItem(
                         backgroundColor:Theme.of(context).colorScheme.secondary,
                         icon: Icon(
                           Icons.newspaper,
                         ),
-                        label: "News"),
+                        label:AppLocalizations.of(context)!.news),
                     BottomNavigationBarItem(
                       backgroundColor:Theme.of(context).colorScheme.secondary,
                       icon: Icon(
                         Icons.settings,
                       ),
-                      label: "settings",
+                      label:AppLocalizations.of(context)!.setting,
                     ),
                   ],
                 ))),

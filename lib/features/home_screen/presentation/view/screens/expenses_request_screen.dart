@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/data/model/product_model.dart';
-import 'package:hr_app/features/home_screen/data/model/status_model.dart';
 import 'package:hr_app/features/home_screen/presentation/view/Expenses_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/utils/styles/colors.dart';
@@ -71,7 +71,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                   toolbarHeight: 100.h,
                   leading: const BackButton(color: Colors.white),
                   title: Text(
-                    'Expenses Request',
+                    AppLocalizations.of(context)!.expensesRequest,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.sp,
@@ -97,7 +97,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Request name',
+                                  AppLocalizations.of(context)!.requestName,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -112,7 +112,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                       fontWeight: FontWeight.w500
                                   ),
                                   decoration: InputDecoration(
-                                    hintText: 'name',
+                                    hintText: AppLocalizations.of(context)!.name,
                                     suffixIcon: Icon(
                                       Icons.edit,
                                       size: 22.sp,
@@ -133,7 +133,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                 ),
                                 SizedBox(height: 16.h),
                                 Text(
-                                  'Select product',
+                                  AppLocalizations.of(context)!.selectProduct,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -154,7 +154,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                       return DropdownButtonFormField<ProductResult>(
                                         value:product,
                                         hint: Text(
-                                          'Select product',
+                                          AppLocalizations.of(context)!.selectProduct,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14.sp,
@@ -195,7 +195,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                 ),
                                 SizedBox(height: 16.h),
                                 Text(
-                                  'Date',
+                                  AppLocalizations.of(context)!.date,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -222,7 +222,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                             CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Select the day',
+                                                AppLocalizations.of(context)!.selectDay,
                                                 style: TextStyle(
                                                     color:Theme.of(context).colorScheme.onSecondary,
                                                     fontWeight: FontWeight.w600,
@@ -347,7 +347,7 @@ class _ExpensesRequestScreenState extends State<ExpensesRequestScreen> {
                                               borderRadius:
                                               BorderRadius.circular(12)),
                                           child: Text(
-                                            "Send Request",
+                                            AppLocalizations.of(context)!.sendRequest,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w600,

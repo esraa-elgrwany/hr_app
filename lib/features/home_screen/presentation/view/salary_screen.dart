@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/salary_line_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/salary_slip_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import '../../../../core/utils/styles/colors.dart';
 
 class SalaryScreen extends StatelessWidget{
@@ -16,7 +17,7 @@ class SalaryScreen extends StatelessWidget{
         create: (context) => HomeCubit()..getSalary(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Salary", style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
+            title: Text(AppLocalizations.of(context)!.salary, style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
             backgroundColor: primaryColor,
             elevation: 0,
             surfaceTintColor: Colors.transparent,

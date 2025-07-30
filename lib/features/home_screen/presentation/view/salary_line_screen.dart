@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
-import 'package:hr_app/features/home_screen/presentation/view/widgets/salary_slip_card.dart';
-
+import 'package:hr_app/l10n/app_localizations.dart';
 import '../../../../core/utils/styles/colors.dart';
 import '../view_model/home_cubit.dart';
 
@@ -23,7 +22,7 @@ class _SalaryLineScreenState extends State<SalaryLineScreen> {
         create: (context) => HomeCubit()..getSalaryLine(ids: widget.slip?.lineIds??[]),
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Salary Slip Line", style: TextStyle(color: Colors.white,fontSize: 22.sp,fontWeight: FontWeight.bold)),
+            title: Text(AppLocalizations.of(context)!.salaryLine, style: TextStyle(color: Colors.white,fontSize: 22.sp,fontWeight: FontWeight.bold)),
             backgroundColor: primaryColor,
             elevation: 0,
             surfaceTintColor: Colors.transparent,

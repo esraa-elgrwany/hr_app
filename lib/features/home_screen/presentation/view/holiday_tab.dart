@@ -6,6 +6,7 @@ import 'package:hr_app/features/home_screen/presentation/view/screens/holiday_re
 import 'package:hr_app/features/home_screen/presentation/view/widgets/floating_button.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/holiday_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class HolidayTab extends StatelessWidget {
@@ -19,7 +20,7 @@ class HolidayTab extends StatelessWidget {
       create: (context) => HomeCubit()..getHolidays(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Holidays", style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
+          title: Text(AppLocalizations.of(context)!.holiday, style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
           backgroundColor: primaryColor,
           elevation: 0,
           surfaceTintColor: Colors.transparent,

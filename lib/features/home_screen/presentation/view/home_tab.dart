@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/core/cache/shared_preferences.dart';
-import 'package:hr_app/core/utils/styles/colors.dart';
 import 'package:hr_app/features/home_screen/presentation/view/Expenses_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view/salary_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_cubit.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/attendence_state.dart';
-import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -89,7 +87,7 @@ class HomeTab extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildHeader(CacheData.getData(key: "employeeName")??""),
+                  _buildHeader(AppLocalizations.of(context)!.welcome,CacheData.getData(key: "employeeName")??""),
                   Card(
                     color: Theme.of(context).colorScheme.onBackground,
                     margin: EdgeInsets.all(16),
@@ -127,16 +125,16 @@ class HomeTab extends StatelessWidget {
                                   Column(
                                     children: [
                                       Text(
-                                        'Check In',
+                                        AppLocalizations.of(context)!.checkIn,
                                         style: TextStyle(
-                                            color: Colors.green, fontSize: 18.sp),
+                                            color: Colors.green, fontSize: 16.sp),
                                       ),
                                       Text(
                                           cubit.checkInTime != null
                                               ? DateFormat('HH:mm:ss').format(cubit.checkInTime!)
                                               : '--:--:--',
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -144,16 +142,16 @@ class HomeTab extends StatelessWidget {
                                   Column(
                                     children: [
                                       Text(
-                                        'Check Out',
+                                        AppLocalizations.of(context)!.checkOut,
                                         style: TextStyle(
-                                            color: Colors.red, fontSize: 18.sp),
+                                            color: Colors.red, fontSize: 16.sp),
                                       ),
                                       Text(
                                         cubit.checkOutTime != null
                                             ? DateFormat('HH:mm:ss').format(cubit.checkOutTime!)
                                             : '--:--:--',
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.w500),
                                       )
                                     ],
@@ -181,8 +179,8 @@ class HomeTab extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green),
                                 child: Text(
-                                  'Check In',
-                                  style: TextStyle(color: Colors.white),
+                                  AppLocalizations.of(context)!.checkIn,
+                                  style: TextStyle(color: Colors.white,fontSize: 16.sp,fontWeight: FontWeight.w500),
                                 ),
                               ),
                               ElevatedButton(
@@ -190,8 +188,8 @@ class HomeTab extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red),
                                 child: Text(
-                                  'Check Out',
-                                  style: TextStyle(color: Colors.white),
+                                  AppLocalizations.of(context)!.checkOut,
+                                  style: TextStyle(color: Colors.white,fontSize: 16.sp,fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -210,7 +208,7 @@ class HomeTab extends StatelessWidget {
   }
 
 
-  Widget _buildHeader(String user) {
+  Widget _buildHeader(String welcome,String user) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -224,7 +222,7 @@ class HomeTab extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Welcome',
+              Text(welcome,
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
               Text(user,
@@ -253,7 +251,7 @@ class HomeTab extends StatelessWidget {
                           builder: (context) => HolidayTab(),
                         ));
                   },
-                  child: _buildQuickAccessCard('Holidays',"assets/images/time_14859310.png",
+                  child: _buildQuickAccessCard(AppLocalizations.of(context)!.holiday,"assets/images/time_14859310.png",
                       Color(0XFFf2fafd), Color(0XFF4ea1d2), Color(0XFFf66259))),
               InkWell(
                   onTap: () {
@@ -264,7 +262,7 @@ class HomeTab extends StatelessWidget {
                         ));
                   },
                   child: _buildQuickAccessCard(
-                      'Expenses',
+                      AppLocalizations.of(context)!.expenses,
                       "assets/images/budget_5381790.png",
                       Color(0XFFffeacf),
                       Color(0XFF1e115e),
@@ -298,9 +296,9 @@ class HomeTab extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Center(
-                        child: Text("Salary Slip",
+                        child: Text(AppLocalizations.of(context)!.salary,
                             style: TextStyle(
-                                fontSize: 22.sp,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0XFF1e115e))),
                       ),
@@ -392,7 +390,7 @@ class HomeTab extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(title,
                   style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       color: txtColor)),
             ],

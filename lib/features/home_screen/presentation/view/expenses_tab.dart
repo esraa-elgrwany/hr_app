@@ -5,6 +5,7 @@ import 'package:hr_app/core/utils/styles/colors.dart';
 import 'package:hr_app/features/home_screen/presentation/view/screens/expenses_request_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/expenses_card.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/floating_button.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../view_model/home_cubit.dart';
 
@@ -25,7 +26,7 @@ class _ExpensesTabState extends State<ExpensesTab> {
       create: (context) => HomeCubit()..getExpenses(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Expenses", style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
+          title: Text(AppLocalizations.of(context)!.expenses, style: TextStyle(color: Colors.white,fontSize: 24.sp,fontWeight: FontWeight.bold)),
           backgroundColor: primaryColor,
           elevation: 0,
           surfaceTintColor: Colors.transparent,

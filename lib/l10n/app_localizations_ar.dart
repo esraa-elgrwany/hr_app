@@ -9,73 +9,34 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get signIn => 'تسجيل الدخول';
+  String get login => 'تسجيل الدخول';
 
   @override
-  String get phoneNum => 'رقم الهاتف';
-
-  @override
-  String get phoneValid => 'أدخل رقم الهاتف';
-
-  @override
-  String get sendVerCode => 'أرسل رمز التحقق';
-
-  @override
-  String get enterCodeHint => 'أدخل ٨ أرقام بدون كود الدولة..';
-
-  @override
-  String get verification => 'تحقق';
-
-  @override
-  String get enterOtp => 'أدخل رمز OTP المرسل إلى رقمك';
-
-  @override
-  String get confirm => 'تأكيد';
-
-  @override
-  String get signUp => 'تسجيل';
-
-  @override
-  String get createNewAcc => 'إنشاء حساب جديد';
+  String get loginWelcome => 'ادخل اسم المستخدم و كلمة السر';
 
   @override
   String get logout => 'تسجيل الخروج';
 
   @override
-  String get welcome => 'مرحباً';
+  String get welcome => 'مرحبا';
 
   @override
-  String get name => 'الإسم';
+  String get passValid => 'ادخل كلمة السر';
 
   @override
-  String get nameHint => 'الإسم';
+  String get userName => 'اسم المستخدم';
 
   @override
-  String get nameValid => 'أدخل إسم المستخدم';
+  String get password => 'كلمة السر';
 
   @override
-  String get idNum => 'رقم الهوية';
+  String get usernameHint => 'ادخل اسم المستخدم';
 
   @override
-  String get idValid => 'أدخل رقم الهوية';
+  String get userValid => 'ادخل اسم المستخدم';
 
   @override
-  String get iDExpiryDate => 'تاريخ إنتهاء الهوية';
-
-  @override
-  String get required => 'مطلوب';
-
-  @override
-  String get address => 'العنوان';
-
-  @override
-  String get stage => 'المرحلة';
-
-  @override
-  String get addressHint => 'أدخل العنوان';
-
-  @override
-  String get location => 'الموقع';
+  String get passHint => 'ادخل كلمة السر';
 
   @override
   String get lang => 'اللغة الافتراضية';
@@ -87,6 +48,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get ar => 'الترجمة الي العربية';
 
   @override
+  String get translate => 'الترجمة';
+
+  @override
   String get theme => 'السمة الافتراضية';
 
   @override
@@ -96,110 +60,83 @@ class AppLocalizationsAr extends AppLocalizations {
   String get light => 'الوضع المضئ';
 
   @override
-  String get translate => 'الترجمة';
-
-  @override
   String get setting => 'الإعدادات';
 
   @override
-  String get mapBar => 'اختار الموقع علي الخريطة';
+  String get holiday => 'الأجازات';
 
   @override
-  String get optional => 'اختياري';
+  String get expenses => 'المصروفات';
 
   @override
-  String get date => 'التاريخ';
+  String get salary => 'قسيمة الراتب';
 
   @override
-  String get serviceTypeId => 'الرقم التعريفي لنوع الخدمة';
+  String get checkIn => 'تسجيل الدخول';
 
   @override
-  String get services => 'الخدمات الالكترونية';
+  String get checkOut => 'تسجيل الخروج';
+
+  @override
+  String get homeTab => 'الرئيسية';
+
+  @override
+  String get notifications => 'الإشعارات';
 
   @override
   String get news => 'الأخبار';
 
   @override
-  String get newsDetails => 'تفاصيل الأخبار';
-
-  @override
-  String get serviceDetails => 'تفاصيل الخدمات الالكترونية';
-
-  @override
-  String get viewArticle => 'عرض المقال كاملاً';
-
-  @override
   String get search => 'بحث';
 
   @override
-  String get description => 'الوصف';
+  String get cancel => 'إلغاء';
 
   @override
-  String get govern => 'المحافظة';
+  String get name => 'الإسم';
 
   @override
-  String get selectGovern => 'إختار المحافظة';
+  String get note => 'ملاحظة';
 
   @override
-  String get state => 'الولاية';
+  String get date => 'التاريخ';
 
   @override
-  String get selectState => 'إختار الولاية';
+  String get from => 'من';
 
   @override
-  String get village => 'القرية';
+  String get to => 'إلي';
 
   @override
-  String get selectVillage => 'إختار القرية';
+  String get requestName => 'اسم الطلب';
 
   @override
-  String get reference => 'المرجع';
+  String get leaveType => 'نوع الاجازة';
 
   @override
-  String get fromDate => 'تاريخ البداية';
+  String get leaveDuration => 'مدة الاجازة';
 
   @override
-  String get toDate => 'تاريخ النهاية';
+  String get aDay => 'يوم';
 
   @override
-  String get requiredDoc => 'الوثائق المطلوبة';
+  String get multipleDays => 'عدة ايام';
 
   @override
-  String get uploadFile => 'تحميل ملف';
+  String get selectDay => 'اختار اليوم';
 
   @override
-  String get submitRequest => 'تأكيد الطلب';
+  String get sendRequest => 'إرسال الطلب';
 
   @override
-  String get mainCat => 'التصنيف الرئيسي';
+  String get holidayRequest => 'طلب أجازة';
 
   @override
-  String get selectMainCat => 'إختار التصنيف الرئيسي';
+  String get selectProduct => 'اختار المنتج';
 
   @override
-  String get subCat => 'التصنيف الفرعي';
+  String get expensesRequest => 'طلب مصروفات';
 
   @override
-  String get selectSubCat => 'إختار التصنيف الفرعي';
-
-  @override
-  String get serviceType => 'نوع الخدمة';
-
-  @override
-  String get selectServiceType => 'إختار نوع الخدمة';
-
-  @override
-  String get next => 'التالي';
-
-  @override
-  String get addNewService => 'إضافة خدمة جديدة';
-
-  @override
-  String get createManage => 'إنشاء و إدارة خدمات جديدة';
-
-  @override
-  String get allServices => 'جميع الخدمات';
-
-  @override
-  String get viewServices => 'عرض وتعديل وحذف الخدمات';
+  String get salaryLine => 'خط قسيمة الراتب';
 }

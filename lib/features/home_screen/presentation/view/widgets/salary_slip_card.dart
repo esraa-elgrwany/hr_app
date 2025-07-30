@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/data/model/salary_model.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/status_badge.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class SalarySlipCard extends StatelessWidget{
@@ -55,7 +56,7 @@ class SalarySlipCard extends StatelessWidget{
                               size: 18.sp, color:Color(0XFF37bf85)),
                           SizedBox(width: 8.w),
                           Text(
-                              "From: ",
+                              "${AppLocalizations.of(context)!.from}: ",
                               style: TextStyle(color:Colors.grey,fontSize: 14.sp,fontWeight: FontWeight.w600)),
                           Text(
                               "${slip.dateFrom}",
@@ -69,7 +70,7 @@ class SalarySlipCard extends StatelessWidget{
                               size: 18.sp, color:Color(0XFF37bf85)),
                           SizedBox(width: 8.w),
                           Text(
-                              "To: ",
+                              "${AppLocalizations.of(context)!.to}: ",
                               style: TextStyle(color:Colors.grey,fontSize: 14.sp,fontWeight: FontWeight.w600)),
                           Text(
                               "${slip.dateTo}",

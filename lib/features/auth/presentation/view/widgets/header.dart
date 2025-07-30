@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -17,14 +18,14 @@ class Header extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Login",
+              AppLocalizations.of(context)!.login,
               style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                   color: Color(0XFF46a1cb)),
             ),
             Text(
-              "Enter username and password",
+              AppLocalizations.of(context)!.loginWelcome,
               style: TextStyle(color: Colors.grey,fontSize:18.sp,
                 fontWeight: FontWeight.w500,),
             ),

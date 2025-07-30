@@ -9,73 +9,34 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get signIn => 'Sign In';
+  String get login => 'Login';
 
   @override
-  String get phoneNum => 'phone number';
-
-  @override
-  String get phoneValid => 'please enter your phone number';
-
-  @override
-  String get sendVerCode => 'Send Verification Code';
-
-  @override
-  String get enterCodeHint => 'Enter 8 digits without the country code..';
-
-  @override
-  String get verification => 'Verification';
-
-  @override
-  String get enterOtp => 'Enter the OTP code sent to your number';
-
-  @override
-  String get confirm => 'Confirm';
-
-  @override
-  String get signUp => 'Sign Up';
-
-  @override
-  String get createNewAcc => 'Create new account';
+  String get loginWelcome => 'Enter username and password';
 
   @override
   String get logout => 'Log out';
 
   @override
-  String get welcome => 'Welcome';
+  String get welcome => 'welcome';
 
   @override
-  String get name => 'Name';
+  String get passValid => 'Please enter your password';
 
   @override
-  String get nameHint => 'Name';
+  String get userName => 'Username';
 
   @override
-  String get nameValid => 'Please enter your username';
+  String get password => 'Password';
 
   @override
-  String get idNum => 'ID number';
+  String get usernameHint => 'username';
 
   @override
-  String get idValid => 'please enter your ID number';
+  String get userValid => 'Please enter your username';
 
   @override
-  String get iDExpiryDate => 'ID expiry date';
-
-  @override
-  String get required => 'Required';
-
-  @override
-  String get address => 'Address';
-
-  @override
-  String get stage => 'Stage';
-
-  @override
-  String get addressHint => 'please enter your address';
-
-  @override
-  String get location => 'Location';
+  String get passHint => 'password';
 
   @override
   String get lang => 'default Language';
@@ -87,6 +48,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ar => 'translate to arabic';
 
   @override
+  String get translate => 'Translation';
+
+  @override
   String get theme => 'default mode';
 
   @override
@@ -96,110 +60,83 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light Mode';
 
   @override
-  String get translate => 'Translation';
-
-  @override
   String get setting => 'Settings';
 
   @override
-  String get mapBar => 'Select Location On Map';
+  String get holiday => 'Holidays';
 
   @override
-  String get optional => 'Optional';
+  String get expenses => 'Expenses';
 
   @override
-  String get date => 'Date';
+  String get salary => 'Salary Slip';
 
   @override
-  String get serviceTypeId => 'Service Type ID';
+  String get checkIn => 'Check In';
 
   @override
-  String get services => 'E-Services';
+  String get checkOut => 'Check Out';
+
+  @override
+  String get homeTab => 'Home';
+
+  @override
+  String get notifications => 'Notifications';
 
   @override
   String get news => 'News';
 
   @override
-  String get newsDetails => 'News Details';
-
-  @override
-  String get serviceDetails => 'E-Services Details';
-
-  @override
-  String get viewArticle => 'View Full Article';
-
-  @override
   String get search => 'Search';
 
   @override
-  String get description => 'Description';
+  String get cancel => 'Cancel';
 
   @override
-  String get govern => 'Government';
+  String get name => 'name';
 
   @override
-  String get selectGovern => 'Select Government';
+  String get note => 'note';
 
   @override
-  String get state => 'State';
+  String get date => 'Date';
 
   @override
-  String get selectState => 'Select state';
+  String get from => 'From';
 
   @override
-  String get village => 'Village';
+  String get to => 'To';
 
   @override
-  String get selectVillage => 'Select Village';
+  String get requestName => 'Request name';
 
   @override
-  String get reference => 'Reference';
+  String get leaveType => 'Leave type';
 
   @override
-  String get fromDate => 'From Date';
+  String get leaveDuration => 'Leave duration';
 
   @override
-  String get toDate => 'To Date';
+  String get aDay => 'A day';
 
   @override
-  String get requiredDoc => 'Required Documents';
+  String get multipleDays => 'Multiple days';
 
   @override
-  String get uploadFile => 'Upload File';
+  String get selectDay => 'Select the day';
 
   @override
-  String get submitRequest => 'Submit Request';
+  String get sendRequest => 'Send Request';
 
   @override
-  String get mainCat => 'Main Category';
+  String get holidayRequest => 'Holiday Request';
 
   @override
-  String get selectMainCat => 'Select Main Category';
+  String get selectProduct => 'Select product';
 
   @override
-  String get subCat => 'Sub Category';
+  String get expensesRequest => 'Expenses Request';
 
   @override
-  String get selectSubCat => 'Select Sub Category';
-
-  @override
-  String get serviceType => 'Service Type';
-
-  @override
-  String get selectServiceType => 'Select Service Type';
-
-  @override
-  String get next => 'Next';
-
-  @override
-  String get addNewService => 'Add New Service';
-
-  @override
-  String get createManage => 'Create and manage new services';
-
-  @override
-  String get allServices => 'All Services';
-
-  @override
-  String get viewServices => 'View,edit,or delete services';
+  String get salaryLine => 'Salary Slip Line';
 }

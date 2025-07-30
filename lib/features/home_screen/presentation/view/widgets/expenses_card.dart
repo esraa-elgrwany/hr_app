@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/icon_badge.dart';
 import 'package:hr_app/features/home_screen/presentation/view/widgets/status_badge.dart';
+import 'package:hr_app/features/setting/model_view/setting_cubit.dart';
 import '../../view_model/home_cubit.dart';
 
 class ExpensesCard extends StatelessWidget {
@@ -65,11 +66,7 @@ class ExpensesCard extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 4,
-          right: 0,
-          child: Align(alignment: Alignment.centerRight, child: IconBadge(img: "assets/images/budget_7057639.png",)),
-        ),
+        Align(alignment: SettingCubit.get(context).isArabic?Alignment.centerLeft:Alignment.centerRight, child: IconBadge(img: "assets/images/budget_7057639.png",)),
       ],
     );
   }

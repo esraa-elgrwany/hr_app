@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/auth/presentation/view/login_screen.dart';
-
-
-import '../../../core/api_services/api-manager.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import '../../../core/cache/shared_preferences.dart';
 import '../../../core/utils/styles/colors.dart';
-import '../../../l10n/app_localizations.dart';
 import '../model_view/setting_cubit.dart';
-
 class SettingScreen extends StatefulWidget {
   static const String routeName = "settingScreen";
   const SettingScreen({super.key});

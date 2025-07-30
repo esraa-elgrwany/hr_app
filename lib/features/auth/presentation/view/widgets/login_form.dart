@@ -4,6 +4,7 @@ import 'package:hr_app/core/cache/shared_preferences.dart';
 import 'package:hr_app/features/auth/presentation/view/widgets/button.dart';
 import 'package:hr_app/features/auth/presentation/view/widgets/text_form_item.dart';
 import 'package:hr_app/features/auth/presentation/view_model/login_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 
 import '../../../../../core/utils/styles/colors.dart';
 
@@ -42,7 +43,7 @@ class _LoginFormState extends State<LoginForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Username",
+                  Text(AppLocalizations.of(context)!.userName,
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -57,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: secondPrimary,
-                      hintText: 'username',
+                      hintText: AppLocalizations.of(context)!.usernameHint,
                       hintStyle: TextStyle(
                           color: thirdPrimary,
                           fontSize: 16.sp,
@@ -74,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  Text("Password",
+                  Text(AppLocalizations.of(context)!.password,
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
@@ -90,7 +91,7 @@ class _LoginFormState extends State<LoginForm> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: secondPrimary,
-                      hintText: 'Password',
+                      hintText: AppLocalizations.of(context)!.passHint,
                       hintStyle: TextStyle(
                           color: thirdPrimary,
                           fontSize: 16.sp,
@@ -132,21 +133,11 @@ class _LoginFormState extends State<LoginForm> {
                             }
                           },
                           child: Button(
-                            txt: "Login",
+                            txt: AppLocalizations.of(context)!.login,
                           )),
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                          color: Color(0XFF1d194a),
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
                 ],
               ),
             ),

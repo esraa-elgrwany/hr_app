@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hr_app/features/home_screen/data/model/status_model.dart';
 import 'package:hr_app/features/home_screen/presentation/view/holiday_tab.dart';
 import 'package:hr_app/features/home_screen/presentation/view_model/home_cubit.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/utils/styles/colors.dart';
@@ -90,7 +91,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                   toolbarHeight: 100.h,
                   leading: const BackButton(color: Colors.white),
                   title: Text(
-                    'Leave Request',
+                    AppLocalizations.of(context)!.holidayRequest,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.sp,
@@ -116,7 +117,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Request name',
+                                  AppLocalizations.of(context)!.requestName,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -130,7 +131,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500),
                                   decoration: InputDecoration(
-                                    hintText: 'name',
+                                    hintText: AppLocalizations.of(context)!.name,
                                     suffixIcon: Icon(
                                       Icons.edit,
                                       size: 22.sp,
@@ -158,7 +159,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                 ),
                                 SizedBox(height: 16.h),
                                 Text(
-                                  'Leave type',
+                                  AppLocalizations.of(context)!.leaveType,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -180,7 +181,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                           StatusResult>(
                                         value: leaveTypeList,
                                         hint: Text(
-                                          'Leave type',
+                                          AppLocalizations.of(context)!.leaveType,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14.sp,
@@ -221,7 +222,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                 ),
                                 SizedBox(height: 16.h),
                                 Text(
-                                  'Leave duration',
+                                  AppLocalizations.of(context)!.leaveDuration,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
@@ -252,7 +253,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                             ),
                                             alignment: Alignment.center,
                                             child: Text(
-                                              'A day',
+                                              AppLocalizations.of(context)!.aDay,
                                               style: TextStyle(
                                                 color: !isMultipleDays
                                                     ? Colors.white
@@ -280,7 +281,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                             ),
                                             alignment: Alignment.center,
                                             child: Text(
-                                              'Multiple days',
+                                              AppLocalizations.of(context)!.multipleDays,
                                               style: TextStyle(
                                                 color: isMultipleDays
                                                     ? Colors.white
@@ -317,7 +318,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'Select the day',
+                                                AppLocalizations.of(context)!.selectDay,
                                                 style: TextStyle(
                                                     color:Theme.of(context).colorScheme.onSecondary,
                                                     fontWeight: FontWeight.w600,
@@ -380,7 +381,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'From',
+                                                    AppLocalizations.of(context)!.from,
                                                     style: TextStyle(
                                                         color: thirdPrimary,
                                                         fontWeight:
@@ -444,7 +445,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'To',
+                                                  AppLocalizations.of(context)!.to,
                                                   style: TextStyle(
                                                       color: Color(0XFFf2c790),
                                                       fontWeight:
@@ -590,7 +591,7 @@ class _HolidayRequestScreenState extends State<HolidayRequestScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(12)),
                                           child: Text(
-                                            "Send Request",
+                                            AppLocalizations.of(context)!.sendRequest,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w600,

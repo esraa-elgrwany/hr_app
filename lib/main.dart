@@ -6,6 +6,7 @@ import 'package:hr_app/features/home_screen/presentation/view/salary_line_screen
 import 'package:hr_app/features/home_screen/presentation/view/salary_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/screens/expenses_request_screen.dart';
 import 'package:hr_app/features/home_screen/presentation/view/screens/holiday_request_screen.dart';
+import 'package:hr_app/l10n/app_localizations.dart';
 import 'core/cache/shared_preferences.dart';
 import 'core/utils/observer.dart';
 import 'core/utils/styles/my_theme.dart';
@@ -13,7 +14,6 @@ import 'features/auth/presentation/view/login_screen.dart';
 import 'features/home_screen/presentation/view/Expenses_tab.dart';
 import 'features/home_screen/presentation/view/home_screen.dart';
 import 'features/setting/model_view/setting_cubit.dart';
-import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,3 +70,4 @@ class MyApp extends StatelessWidget {
 );
   }
 }
+
